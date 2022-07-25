@@ -1,11 +1,11 @@
 # haoshen_bot
-一个基于[YiriMirai](https://github.com/YiriMiraiProject/YiriMirai)的QQ机器人
+一个基于[YiriMirai](https://github.com/YiriMiraiProject/YiriMirai)的多功能QQ机器人
 
 # 如何使用
 
 ## 1.安装mirai
 
-首先，需要先安装 mirai-console 和 mirai-api-http，登录qq，并修改mirai-api-http的配置文件
+首先，需要先安装 mirai-console 和 mirai-api-http，在mcl登录qq，并修改mirai-api-http的配置文件
 
 建议参考 YiriMirai 官方文档的[环境配置](https://yiri-mirai.vercel.app/tutorials/01/configuration)。
 
