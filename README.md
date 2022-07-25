@@ -1,5 +1,7 @@
 # haoshen_bot
-一个基于[YiriMirai](https://github.com/YiriMiraiProject/YiriMirai)的多功能QQ机器人
+[![Licence](https://img.shields.io/github/license/zyckk4/haoshen_bot)](https://github.com/zyckk4/haoshen_bot/blob/master/LICENSE)
+
+haoshen_bot（豪神豪神）是一个基于[YiriMirai](https://github.com/YiriMiraiProject/YiriMirai)的多功能QQ机器人
 
 # 如何使用
 
@@ -41,3 +43,9 @@ pip install -r requirements.txt
 打开config/config.yml，填写相关配置
 
 填写完并保存后，确保mcl中已登录机器人qq，然后在终端输入```python main.py```运行即可
+
+# 联系方式
+
+qq群: 722257731
+
+项目尚不完善，可能有很多bug，欢迎提出问题或建议，可以加群联系或者提issue和pr
