@@ -7,7 +7,7 @@
 
 首先，需要先安装 mirai-console 和 mirai-api-http，登录qq，并修改mirai-api-http的配置文件
 
-建议参考 YiriMirai 官方文档的[环境配置]((https://yiri-mirai.vercel.app/tutorials/01/configuration))。
+建议参考 YiriMirai 官方文档的[环境配置](https://yiri-mirai.vercel.app/tutorials/01/configuration)。
 
 ## 2.配置python环境
 
