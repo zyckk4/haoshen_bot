@@ -1,0 +1,31 @@
+#bot的qq号
+bot_qq: 
+#mirai-api-http的verify-key
+verify_key: 
+#mirai-api-http运行的地址和端口
+host: localhost
+port: 8080
+
+#bot所有者的qq号
+bot_owner_qq: 
+
+#高德api的key
+gaode_key: 
+#wolfram_alpha的APPID
+wa_appid: 
+#katago和katagomo的启动命令
+katago_command: 
+katagomo_command:
+
+#玩wordle游戏，针对某些很厉害的玩家
+wordle_zhendui:
+  - 
+#开启复读禁言的群组
+repeat_banned_group:
+  - 
+#禁止游戏的群组
+game_banned_group:
+  - 
+#游戏管理员的qq号
+game_admin:
+  - 

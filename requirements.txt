@@ -1,0 +1,14 @@
+yiri-mirai==0.2.7
+yiri-mirai-trigger==0.3.1
+aiohttp
+uvicorn
+pyyaml
+cairosvg
+chess
+qrcode
+beautifulsoup4
+selenium
+numpy
+lxml
+pandas
+openpyxl
