@@ -40,17 +40,6 @@ help_mesg='''豪神豪神功能列表
 31.游戏已上线！！！输入"/游戏"或'/game'查看帮助
 32.更多功能等你探索!'''
 
-mirai_plugins_mesg='''#插件指令列表：
-插件1：#ph,#bw,#5k兆,#0,#osu,#marble,#flash,#erode,emoji合成;
-插件2：/pet;
-插件3：锤,贴,踢,打,抱,踩;
-插件4：#音乐,#语音,#外链,#QQ,#网易,#网易电台,#酷狗,#千千;
-#插件详情信息：
-插件1,DrawMeme - 基于Skiko的奇怪的图片生成器,(https://github.com/LaoLittle/DrawMeme)
-插件2,Petpet - 生成各种奇怪的图片,(https://github.com/Dituon/petpet)
-插件3,HitHit锤人插件,(https://gitee.com/arisaka-iris/hithit)
-插件4,Mirai点歌插件,(https://github.com/khjxiaogu/MiraiSongPlugin)
-请支持插件原作者！'''
 
 @Listen.group()
 async def help_info(event):
@@ -58,6 +47,4 @@ async def help_info(event):
     str(event.message_chain)=='/help' or \
     str(event.message_chain)=='/帮助':
         await send(event,[help_mesg]+[Face(face_id=178)]*3)
-        
-    elif str(event.message_chain)=='/插件':
-        await send(event,mirai_plugins_mesg)
+    
