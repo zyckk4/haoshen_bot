@@ -40,6 +40,9 @@ help_mesg='''豪神豪神功能列表
 31.游戏已上线！！！输入"/游戏"或'/game'查看帮助
 32.更多功能等你探索!'''
 
+repo_info='''项目地址：
+https://github.com/zyckk4/haoshen_bot
+如果觉得好可以点个star⭐，如出现bug，或您有任何建议，欢迎反馈！'''
 
 @Listen.group()
 async def help_info(event):
@@ -47,4 +50,6 @@ async def help_info(event):
     str(event.message_chain)=='/help' or \
     str(event.message_chain)=='/帮助':
         await send(event,[help_mesg]+[Face(face_id=178)]*3)
-    
+        
+    elif str(event.message_chain)=='/项目地址':
+        await send(event,repo_info)
