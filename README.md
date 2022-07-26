@@ -1,7 +1,7 @@
 # haoshen_bot
 [![Licence](https://img.shields.io/github/license/zyckk4/haoshen_bot)](https://github.com/zyckk4/haoshen_bot/blob/master/LICENSE)
 
-haoshen_bot（豪神豪神）是一个基于[YiriMirai](https://github.com/YiriMiraiProject/YiriMirai)的多功能QQ机器人
+haoshen_bot（豪神豪神）是一个基于[YiriMirai](https://github.com/YiriMiraiProject/YiriMirai)的多功能QQ机器人。
 
 # 如何使用
 
