@@ -6,7 +6,6 @@ from utils.utils import Listen,send,Config
 from mirai import Face
 from .get_latex import get_latex
 from asyncio import exceptions as e
-from io import BytesIO
 import aiohttp
 from urllib.request import quote
 
@@ -38,7 +37,7 @@ async def get_wa(event):
             async with session.get(url) as resp:
                 if resp.status == 200:
                     img=await resp.read()
-                    await send(event,[],img_bytes=BytesIO(img))
+                    await send(event,[],img_bytes=img)
                 else:
                     await send(event,await resp.text())
          
