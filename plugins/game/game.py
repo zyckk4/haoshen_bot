@@ -580,7 +580,7 @@ async def recite_words(event, server_name):
         else:
             n = int(len(word)/2)
             remind_word = word[:n]
-            mesg2 = f'{remind_time}内没人猜出来哦，给个提示:这个单词的前{n}个字母是{remind_word}'
+            mesg2 = f'{remind_time}s内没人猜出来哦，给个提示:这个单词的前{n}个字母是{remind_word}'
             await send(event, mesg2)
 
             def waiter(event2):
