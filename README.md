@@ -1,7 +1,7 @@
 # haoshen_bot
 [![Licence](https://img.shields.io/github/license/zyckk4/haoshen_bot)](https://github.com/zyckk4/haoshen_bot/blob/master/LICENSE)
 
-haoshen_bot（豪神豪神）是一个基于[YiriMirai](https://github.com/YiriMiraiProject/YiriMirai)的多功能QQ机器人。
+**haoshen_bot**（豪神豪神）是一个基于[YiriMirai](https://github.com/YiriMiraiProject/YiriMirai)的多功能QQ机器人。
 
 # 如何使用
 
@@ -45,11 +45,11 @@ pip install -r requirements.txt
 填写完并保存后，确保mcl中已登录机器人qq，然后在终端输入```python main.py```运行即可
 
 # 功能简介
-游戏功能：下各种棋，扫雷，wordle，24点，数织，抢答单词和日语假名，等等，并计算金币经验，参与富豪排名；
+游戏功能：下各种棋，扫雷，wordle，24点，数织，抢答单词和日语假名，等等，并计算金币经验，参与群富豪榜排名；
 
-学习功能：百度百科，在线编程，wolframalpha请求，latex图片生成，oeis数列搜索，等等
+学习功能：百度百科，在线编程，Wolfram|Alpha请求，LaTeX图片生成，oeis数列搜索，等等；
 
-生活休闲：数十种趣味/实用小功能，例如趣味图片制作，高德地图api，搜索mcwiki和mc模组，自动生成狗屁不通文章、申论，获取知乎、微博热搜，等等
+生活休闲：数十种趣味/实用小功能，例如趣味图片制作，高德地图api，搜索MCwiki和MC模组，自动生成狗屁不通文章、申论，获取知乎、微博热搜，等等
 
 q群管理：可选开启复读禁言，可以帮助管理员禁言。
 
