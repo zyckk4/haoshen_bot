@@ -1293,7 +1293,7 @@ async def play_minesweeper(event, server_name):
     await send(event, [],PIL_image=mine.draw_panel())
     winner = {}
     # fail_id=-1
-    ms_admin = [2240486388]
+    ms_admin = Config.get()['game_admin']
     while True:
         def waiter(event2):
             if event2.sender.group.id == event.sender.group.id:
@@ -1374,7 +1374,7 @@ async def play_nonogram(event, server_name):
     except KeyError:
         pass
     flag_of_nn[server_name] = True
-    nono_admin=[2240486388]
+    nono_admin=Config.get()['game_admin']
     nono = Nonogram()
     await send(event, [],PIL_image=nono.board_img())
     # winner={}
