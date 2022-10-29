@@ -3,15 +3,20 @@
 @author: ForeverHaibara  https://github.com/ForeverHaibara
 Credits to https://github.com/PaddlePaddle/PaddleHub
 """
-from utils.utils import Listen, send
-from mirai import Image
-import aiohttp
 import time
 import asyncio
+import aiohttp
+from mirai import Image, MessageEvent
+from utils.utils import Listen, send
+
+plugin = Listen(
+    'AI_draw',
+    '文心大模型AI画画插件,输入"/AI画画 风格 内容"以查询'
+)
 
 
-@Listen.all_mesg()
-async def AI_draw_ernievilg(event):
+@plugin.all_mesg()
+async def AI_draw_ernievilg(event: MessageEvent):
     """
     指令: /AI画画 + 风格 + 内容
     如: /AI画画 卡通 二次元美少女, 古风, 唯美, 柔软
@@ -22,7 +27,7 @@ async def AI_draw_ernievilg(event):
             style = splits[1]
             texts = ' '.join(splits[2:])
             if style == 'low':
-                if texts.startswith('poly '): # 就这个有空格, 把 low poly 拼起来
+                if texts.startswith('poly '):  # 就这个有空格, 把 low poly 拼起来
                     style = 'low poly'
                     texts = texts[5:]
 
@@ -55,9 +60,9 @@ class ErnieVilG:
         self.ak = ak or 'G26BfAOLpGIRBN5XrOV2eyPA25CE01lE'
         self.sk = sk or 'txLZOWIjEqXYMU3lSm05ViW4p9DWGOWs'
         self.token_host = 'https://wenxin.baidu.com/younger/portal/api/oauth/token'
-        self.available_styles = ['古风','油画','水彩','卡通','二次元','浮世绘','蒸汽波艺术','low poly',
-                                '像素风格','概念艺术','未来主义','赛博朋克','写实风格','洛丽塔风格',
-                                '巴洛克风格','超现实主义','探索无限']
+        self.available_styles = ['古风', '油画', '水彩', '卡通', '二次元', '浮世绘', '蒸汽波艺术', 'low poly',
+                                 '像素风格', '概念艺术', '未来主义', '赛博朋克', '写实风格', '洛丽塔风格',
+                                 '巴洛克风格', '超现实主义', '探索无限']
 
     async def _apply_token(self, ak, sk):
         ak = ak or self.ak
@@ -77,7 +82,8 @@ class ErnieVilG:
 
     def check_style(self, style: str):
         if not style in self.available_styles:
-            raise RuntimeError('风格只支持 ' + '、'.join(self.available_styles) + ' 中的一种')
+            raise RuntimeError(
+                '风格只支持 ' + '、'.join(self.available_styles) + ' 中的一种')
         return style
 
     async def generate_image(self,
@@ -125,7 +131,7 @@ class ErnieVilG:
         start_time = time.time()
         while len(taskids):  # retries
             # 请求作画结果 直到成功, 一般在 40 秒左右
-            if time.time() - start_time > 300: # 超时停止
+            if time.time() - start_time > 300:  # 超时停止
                 return []
 
             has_done = []

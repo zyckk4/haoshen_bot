@@ -2,7 +2,6 @@
 """
 @author: zyckk4 https://github.com/zyckk4
 """
-
 from random import randint
 from PIL import Image, ImageDraw, ImageFont, ImageColor
 
@@ -229,3 +228,16 @@ class Nonogram():
                           (font_size[0] / 2) - 40, 80 * (i + 1) - 40 - (font_size[1] / 2))
                 draw.text(center, text, fill=0, font=self.font)
 
+
+if __name__ == '__main__':
+    game = Nonogram()
+    game.board_img().show()
+    while True:
+        try:
+            mesg = game.play(input())
+            game.board_img().show()
+        except Exception as e:
+            print(e)
+        if mesg != -1:
+            print(f"游戏结束！总操作数为{mesg}")
+            break

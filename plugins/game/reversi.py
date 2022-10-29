@@ -2,9 +2,8 @@
 '''
 @author: zyckk4  https://github.com/zyckk4
 '''
-
-from .chess_basic import ChessWithImg
 import copy
+from .chess_basic import ChessWithImg
 
 
 class Reversi(ChessWithImg):
@@ -186,3 +185,9 @@ lst_zuozi=[
 '''
 
 
+if __name__ == '__main__':
+    b = Reversi(['zyc', 'zyckk4'], max_col=8, max_row=8, show_num=True)
+    # b.img.image.show()
+    print(b.play('zyc', '5,6'))
+    # print(b.play('forever豪3','4,6'))
+    b.img.image.show()

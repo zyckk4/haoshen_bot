@@ -20,6 +20,8 @@ katagomo_command:
 #玩wordle游戏，针对某些很厉害的玩家
 wordle_zhendui:
   - 
+#禁止戳bot的群组
+nudge_banned_group:
 #开启复读禁言的群组
 repeat_banned_group:
   - 

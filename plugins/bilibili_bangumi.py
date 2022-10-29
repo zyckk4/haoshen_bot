@@ -1,21 +1,30 @@
 # -*- coding: utf-8 -*-
 """
+Created on Thu Jul 21 16:28:57 2022
+
 @author: zyckk4  https://github.com/zyckk4
 """
-from utils.utils import Listen,send
-from mirai import Image
 import aiohttp
+from mirai import Image, MessageEvent
+from utils.utils import Listen, send
 
-@Listen.all_mesg()
-async def get_bilibili_new_bangumi(event):
-    if str(event.message_chain)==('/b站新番'):
-        data=(await get_formatted_new_bangumi_json())[0]
-        mesg_chain=[]
+plugin = Listen(
+    'bilibili_bangumi',
+    'b站番剧查询插件,输入"/b站新番"以查询'
+)
+
+
+@plugin.all_mesg()
+async def get_bilibili_new_bangumi(event: MessageEvent):
+    if str(event.message_chain) == '/b站新番':
+        data = (await get_formatted_new_bangumi_json())[0]
+        mesg_chain = []
         for d in data:
             mesg_chain.append(d['title']+' '+d['pub_index']+' '+d['pub_time'])
             mesg_chain.append(Image(url=d['cover']))
-        await send(event,mesg_chain)
-        
+        await send(event, mesg_chain)
+
+
 async def get_new_bangumi_json() -> dict:
     """
     Get json data from bilibili
@@ -42,7 +51,7 @@ async def get_new_bangumi_json() -> dict:
                       "Chrome/85.0.4183.121 Safari/537.36 "
     }
     timeout = aiohttp.ClientTimeout(total=10)
-    async with aiohttp.ClientSession(connector=aiohttp.TCPConnector(ssl=False),timeout=timeout) as session:
+    async with aiohttp.ClientSession(connector=aiohttp.TCPConnector(ssl=False), timeout=timeout) as session:
         async with session.post(url=url, headers=headers) as resp:
             result = await resp.json()
     return result
@@ -51,7 +60,7 @@ async def get_new_bangumi_json() -> dict:
 async def get_formatted_new_bangumi_json(day=1):
     """
     Format the json data
-    
+
     Examples:
         data = get_formatted_new_bangumi_json()
 
@@ -74,7 +83,8 @@ async def get_formatted_new_bangumi_json(day=1):
             temp_bangumi_data_dict = dict()
             temp_bangumi_data_dict["title"] = data["title"]
             temp_bangumi_data_dict["cover"] = data["cover"]
-            temp_bangumi_data_dict["pub_index"] = data["delay_index"] + " (本周停更)" if data["delay"] else data["pub_index"]
+            temp_bangumi_data_dict["pub_index"] = data["delay_index"] + \
+                " (本周停更)" if data["delay"] else data["pub_index"]
             temp_bangumi_data_dict["pub_time"] = data["pub_time"]
             temp_bangumi_data_dict["url"] = data["url"]
             temp_bangumi_data_list.append(temp_bangumi_data_dict)

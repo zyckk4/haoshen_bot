@@ -2,20 +2,26 @@
 """
 @author: zyckk4  https://github.com/zyckk4
 """
-from utils.utils import Listen,send
-from mirai import Image
 import aiohttp
+from mirai import Image, MessageEvent
+from utils.utils import Listen, send
 
-@Listen.all_mesg()
-async def get_news(event):
-    if str(event.message_chain)=='/日报':
-        timeout=aiohttp.ClientTimeout(total=10)
+plugin = Listen(
+    'get_news',
+    r'日报插件,输入"/日报"以获取'
+)
+
+
+@plugin.all_mesg()
+async def get_news(event: MessageEvent):
+    if str(event.message_chain) == '/日报':
+        timeout = aiohttp.ClientTimeout(total=10)
         try:
             async with aiohttp.ClientSession(timeout=timeout) as session:
                 async with session.get(url="http://api.2xb.cn/zaob") as resp:
-                    info=await resp.json()
+                    info = await resp.json()
         except:
-            await send(event,"获取日报失败！",True)
+            await send(event, "获取日报失败！", True)
             return
-        img_url=info['imageUrl']
-        await send(event,Image(url=img_url))
+        img_url = info['imageUrl']
+        await send(event, Image(url=img_url))

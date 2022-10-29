@@ -4,11 +4,16 @@
 """
 from utils.utils import Listen,send
 
-@Listen.all_mesg()
+plugin = Listen(
+    'yingxiaohao_content_maker',
+    r'营销号内容生成器,输入"/yxh 某人 某事“以生成'
+)
+
+@plugin.all_mesg()
 async def YXH_content_maker(event):
     if str(event.message_chain).startswith('/yxh'):
         x=str(event.message_chain).replace('/yxh','',1).strip()
-        lst=x.split(' ')
+        lst=x.split()
         if len(lst)<2 or len(lst)>3:
             await send(event,"指令错误")
             return

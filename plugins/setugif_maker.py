@@ -2,16 +2,22 @@
 """
 @author: zyckk4  https://github.com/zyckk4
 """
-from utils.utils import Listen, send
-from PIL import Image as IMG, ImageDraw, ImageFont
 import random
 from io import BytesIO
+from PIL import Image as IMG, ImageDraw, ImageFont
+from mirai import MessageEvent
+from utils.utils import Listen, send
+
+plugin = Listen(
+    'setugif_maker',
+    '"色图"生成,输入“来张色图”试试'
+)
 
 
-@Listen.all_mesg()
-async def send_setu(event):
+@plugin.all_mesg()
+async def send_setu(event: MessageEvent):
     if str(event.message_chain) == '来张色图' or str(event.message_chain) == '来张涩图':
-        await send(event,[],img_bytes=create_setu())
+        await send(event, [], img_bytes=create_setu())
 
 
 def create_setu():

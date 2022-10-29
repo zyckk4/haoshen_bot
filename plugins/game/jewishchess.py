@@ -141,3 +141,31 @@ class JewishChess(ChessWithImg):
         self.outcome = self.turn ^ self.anti
 
 
+if __name__ == '__main__':
+    path = 'tempgo.png'
+    players = [input("请输入玩家1昵称："), input("请输入玩家2昵称：")]
+    chs = JewishChess(players=players, path=path)
+    chs.image.show()
+    while True:
+        try:
+            input_str = input(f"轮到 {players[chs.turn]} 下棋:")
+            if input_str == '悔棋':
+                chs.undo()
+                chs.image.show()
+                continue
+            elif input_str == '中止':
+                chs.save_gif()
+                print("游戏结束！")
+                print("棋谱gif已保存！")
+                break
+            mesg = chs.play(input_str, players[chs.turn])
+            chs.image.show()
+            if mesg is not None:
+                print(f'{players[chs.outcome]} 获得胜利！')
+                chs.save_gif()
+                print("游戏结束！")
+                print("棋谱gif已保存！")
+                break
+                break
+        except Exception as e:
+            print(e)

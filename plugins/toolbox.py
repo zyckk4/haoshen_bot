@@ -4,24 +4,30 @@
 """
 
 from utils.utils import Listen, my_filter, send, send_nudge, respond_nudge,\
-    mute, unmute, mute_all, unmute_all, is_admin, Config
-from mirai import At, Dice, Face, Image, AtAll
+    mute, Config
+from mirai import At, Dice, Face, Image
 from datetime import datetime
 import random
-import asyncio
 import os
 
+plugin = Listen(
+    'toolbox',
+    '工具箱'
+)
 
-@Listen.all_mesg()
+
+@plugin.all_mesg()
 async def give_time(event):
     '''报时'''
     if str(event.message_chain) == '报时':
         await send(event, f"当前时间：{datetime.now().strftime('%X')}")
 
- 
-@Listen.nudge()
+
+@plugin.nudge()
 async def on_nudge_message(event):
     '''戳一戳互动'''
+    if event.subject.kind == 'Group' and event.subject.id in Config.get()['nudge_banned_group']:
+        return
     if event.from_id != Config.bot_qq() and event.target == Config.bot_qq():
         ran = random.randint(0, 4)
         Re = ['别戳我嘛~', [At(event.from_id), ' 你好坏坏~我好爱爱~'],
@@ -33,7 +39,7 @@ async def on_nudge_message(event):
             await send(event, Re[ran])
 
 
-@Listen.all_mesg()
+@plugin.all_mesg()
 async def play_dice(event):
     '''丢骰子'''
     if "丢色子" == str(event.message_chain) or "丢骰子" == str(event.message_chain):
@@ -49,8 +55,7 @@ async def play_dice(event):
                 return
 
 
-
-@Listen.member_join()
+@plugin.member_join()
 async def welcome_new_member(event):
     '''欢迎新成员'''
     await send(event.member, [At(event.member.id), ",热烈欢迎 "+event.member.member_name+" 加入本群！"]
@@ -58,7 +63,7 @@ async def welcome_new_member(event):
     await send_nudge(event.member.id, event.member.group.id, 'Group')
 
 
-@Listen.group()
+@plugin.group()
 async def interact_with_owner(event):
     '''和主人互动'''
     if At(Config.bot_qq()) in event.message_chain and event.sender.id == Config.bot_owner_qq():
@@ -66,30 +71,7 @@ async def interact_with_owner(event):
         await send(event, random.choice(reply), True)
 
 
-@Listen.friend()
-async def owner_control(event):
-    '''主人控制'''
-    if event.sender.id != Config.bot_owner_qq():
-        return
-    if str(event.message_chain).startswith('/send'):
-        x = str(event.message_chain).replace('/send', '', 1).strip()
-        try:
-            group_id = int(x)
-        except:
-            await send(event, "指令错误")
-            return
-        await send(event, "请在60s内输入你想发的消息")
-
-        def waiter(event2):
-            if event2.sender.id == event.sender.id:
-                return event2.message_chain
-        mesg_chain = await my_filter(waiter, 'F', 60)
-        await send(group_id, mesg_chain)
-        await send(event, "发送成功", True)
-
-
-
-@Listen.group()
+@plugin.group()
 async def hit_xiaobing(event):
     '''揍小冰'''
     if str(event.message_chain) == '揍小冰':
@@ -101,118 +83,7 @@ async def hit_xiaobing(event):
             await send(event, "好，小冰已经被揍哑巴了，哈哈哈哈", True)
 
 
-@Listen.group()
-async def about_mute(event):
-    '''禁言相关'''
-    if str(event.message_chain) == '快来禁言我':
-        ran_mutetime = random.randint(180, 600)
-        if not event.sender.permission == "MEMBER":
-            await send(event, "草，劳资禁言不了你", True)
-        else:
-            await mute(event, event.sender.id, ran_mutetime)
-            await send(event, '群员 '+event.sender.member_name+' 已被禁言%d分钟%d秒' % (ran_mutetime/60, ran_mutetime % 60))
-
-    elif str(event.message_chain).startswith('/禁言'):
-        if not await is_admin(event):
-            await send(event, "呜呜，我没有权限，帮不了你", True)
-            return
-        if event.sender.permission == "MEMBER":
-            await send(event, "你这刁民还敢禁言？", True)
-            ran_mutetime = random.randint(180, 300)
-            await mute(event, event.sender.id, ran_mutetime)
-            return
-        if AtAll in event.message_chain:
-            await mute_all(event)
-            await send(event, "全员禁言已开启", True)
-            return
-        if event.message_chain.count(At) == 0:
-            await send(event, "需at你想禁言的成员!", True)
-            return
-        lst_id = [at.target for at in event.message_chain.get(At)]
-        ct = 0
-        for _id in lst_id:
-            try:
-                await mute(event, _id, random.randint(180, 300))
-            except:
-                await send(event, f"呜呜，我没权限禁言成员{_id}")
-                ct += 1
-        await send(event, f"禁言{len(lst_id)-ct}个成员成功,{ct}个成员失败", True)
-
-    elif str(event.message_chain).startswith('/解禁'):
-        if not await is_admin(event):
-            await send(event, "呜呜，我没有权限，帮不了你", True)
-            return
-        if event.sender.permission == "MEMBER":
-            await send(event, "你这刁民还敢解禁？", True)
-            ran_mutetime2 = random.randint(180, 300)
-            await mute(event, event.sender.id, ran_mutetime2)
-            return
-        if AtAll in event.message_chain:
-            await unmute_all(event)
-            await send(event, "全员禁言已关闭", True)
-            return
-        if event.message_chain.count(At) == 0:
-            await send(event, "需at你想解禁的成员!", True)
-            return
-        lst_id = [at.target for at in event.message_chain.get(At)]
-        for _id in lst_id:
-            try:
-                await unmute(event, _id)
-            except:
-                await send(event, f"呜呜，我没权限解禁成员{_id}")
-                ct += 1
-        await send(event, "解禁成功！", True)
-
-    elif str(event.message_chain) == '开启全员禁言':
-        if event.sender.permission == "MEMBER" and event.sender.id != Config.bot_owner_qq():
-            await send(event, [At(event.sender.id), '你这刁民还敢开全员禁言？？'])
-            ran_mutetime = random.randint(180, 300)
-            await mute(event, event.sender.id, ran_mutetime)
-        else:
-            await mute_all(event)
-            if event.sender.permission == "OWNER":
-                await send(event, '全员禁言已开启，尊敬的群主大人', True)
-            elif event.sender.id == Config.bot_owner_qq():
-                await send(event, '全员禁言已开启，亲爱的,但是你只能禁言10秒', True)
-                await asyncio.sleep(10)
-                await unmute_all(event)
-
-    elif str(event.message_chain) == '关闭全员禁言':
-        await unmute_all(event)
-        if event.sender.permission == "OWNER":
-            await send(event, '全员禁言已关闭，亲爱的群主大人', True)
-
-str_pre = {}
-str_photo_pre = {}
-count = {}
-
-
-@Listen.group()
-async def about_repeat(event):
-    '''复读相关'''
-    global str_pre, str_photo_pre, count
-    if event.group.id in Config.repeat_banned_group():
-        if event.group.id not in str_pre:
-            count[event.group.id] = 0
-            str_pre[event.group.id] = None
-            str_photo_pre[event.group.id] = None
-        if str(event.message_chain) == str_pre[event.group.id] and event.message_chain.get(Image) == str_photo_pre[event.group.id]:
-            if count[event.group.id] >= 2:
-                if event.sender.permission == "ADMINISTRATOR":
-                    await send(event.sender.group.id, '臭管理带头复读鲨不掉呜呜')
-                elif event.sender.permission == "OWNER":
-                    await send(event, '臭群主带头复读，我要起义！')
-                else:
-                    await mute(event, event.sender.id, 600)
-            else:
-                count[event.group.id] += 1
-        else:
-            count[event.group.id] = 0
-            str_pre[event.group.id] = str(event.message_chain)
-            str_photo_pre[event.group.id] = event.message_chain.get(Image)
-
-
-@Listen.group()
+@plugin.group()
 async def pin_picture(event):
     '''pin图功能'''
     path = f'data/pin_image/pin{event.group.id}'
@@ -229,12 +100,10 @@ async def pin_picture(event):
                 if event.sender.id == event2.sender.id and event2.message_chain.count(Image) == 1:
                     lst_pic = event2.message_chain.get(Image)
                     return lst_pic
-            lst_pic = await my_filter(waiter, 'F', 30)
+
+            lst_pic = await my_filter(waiter, 'G', 30)
 
             if lst_pic is None:
-                return
-            elif event.message_chain.count(Image) >= 2:
-                await send(event, "只能pin一张图片哦")
                 return
         elif event.message_chain.count(Image) >= 2:
             await send(event, "只能pin一张图片哦", True)

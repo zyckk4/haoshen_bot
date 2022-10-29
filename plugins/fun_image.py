@@ -1,15 +1,23 @@
 # -*- coding: utf-8 -*-
 """
+Created on Fri Jul 22 18:03:56 2022
+
 @author: zyckk4  https://github.com/zyckk4
 """
-from utils.utils import Listen,send,my_filter
-from mirai import Plain,At,Image
-from PIL import Image as IMG,ImageFont,ImageDraw
 from io import BytesIO
 import aiohttp
+from PIL import Image as IMG,ImageFont,ImageDraw
+from mirai import Plain,At,Image,MessageEvent
+from utils.utils import Listen,send,my_filter
 
-@Listen.all_mesg()
-async def fun_image(event):
+plugin = Listen(
+    'fun_image',
+    r'趣图制作插件,输入"/制图"以开始'
+)
+
+
+@plugin.all_mesg()
+async def fun_image(event:MessageEvent):
     if str(event.message_chain).startswith('/制图'):
         text=str(event.message_chain.get(Plain)[0]).replace('/制图','',1)
         sign=0

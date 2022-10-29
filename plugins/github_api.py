@@ -2,12 +2,15 @@
 """
 @author: zyckk4  https://github.com/zyckk4
 """
-
-from utils.utils import Listen, send
 import aiohttp
+from utils.utils import Listen, send
 
+plugin = Listen(
+    'get_news',
+    r'github API,输入"/zen"以获取github禅语'
+)
 
-@Listen.all_mesg()
+@plugin.all_mesg()
 async def github_zen(event):
     if str(event.message_chain) == '/zen':
         try:
@@ -24,7 +27,3 @@ async def get_zen(timeout=10):
     async with aiohttp.ClientSession(timeout=timeout) as session:
         async with session.get(url=url) as resp:
             return await resp.text()
-
-if __name__ == '__main__':
-    import asyncio
-    asyncio.run(get_zen())

@@ -2,13 +2,13 @@
 """
 @author: zyckk4  https://github.com/zyckk4
 """
-
-from mirai import At, Plain
-from utils.utils import send, my_filter, Config
-from . import game_basic as gb
-from random import randint
 import asyncio
 import re
+from random import randint
+from mirai import At, Plain, Image
+from utils.utils import send, my_filter, Config
+from . import game_basic as gb
+#import game_chess
 from .mychess import PlayChess
 from .weiqi import Go, KataGo
 from .gomoku_v3 import Gomoku, AntiTTT, AntiTTT_with_AI, Katagomo
@@ -18,6 +18,10 @@ from .jewishchess import JewishChess
 from . import minesweeper as ms
 from .nonogram import Nonogram
 from .wordle import Wordle
+from .renju_eliminate import RenjuEliminate
+from .get_10 import Get10
+from .get10_AI import AIGet10
+from .connect_balls import ConnectBalls
 
 flag_of_ms = {}
 flag_of_nn = {}
@@ -26,7 +30,9 @@ flag_of_wod_single = {}
 
 
 async def e_send_game_menu(event):
-    await send(event, gb.get_game_menu())
+    from utils.text_engine import text_to_img
+    await send(event, [], PIL_image=text_to_img(gb.get_game_menu()))
+
 
 async def e_create_server(event, server_name):
     if event.sender.id == Config.bot_owner_qq():
@@ -98,6 +104,7 @@ async def e_upgrade(event, server_name):
     mesg = gb.upgrade(event.sender.id, server_name)
     await send(event, mesg)
 
+
 async def e_get_rich_list(event, server_name):
     rich_list = gb.get_rich_list(server_name)
     mesg = '富豪榜\n'
@@ -119,7 +126,6 @@ async def e_get_poor_list(event, server_name):
         if i != len(rich_list)-1:
             mesg += '\n'
     await send(event, mesg)
-
 
 
 async def e_get_wordle_list(event, server_name, tp=0):
@@ -155,12 +161,14 @@ async def e_change_nickname(event, server_name):
     def waiter(event2):
         if event2.sender.id == event.sender.id:
             return str(event2.message_chain)
-        
-    mesg = await my_filter(waiter,'G', timeout=120)
+
+    mesg = await my_filter(waiter, 'G', timeout=120)
     if mesg is None:
         await send(event, "超时！改名取消", True)
         return
     data = {'nickname': mesg}
+    data2 = {'money': -200}
+    gb.add_data(data2, event.sender.id, server_name)
     info = gb.change_data(data, event.sender.id, server_name)
     await send(event, info)
     await send(event, [At(event.sender.id), "改名成功！"])
@@ -178,9 +186,9 @@ async def give_money(event, server_name):
     def waiter(event2):
         if event2.sender.id == event.sender.id:
             return event2.message_chain
-        
-    msg_chain = await my_filter(waiter,'G', timeout=120)
-    
+
+    msg_chain = await my_filter(waiter, 'G', timeout=120)
+
     if msg_chain is None:
         await send(event, "超时！", True)
         return
@@ -211,6 +219,7 @@ async def give_money(event, server_name):
         return
     gb.add_data(data1, event.sender.id, server_name)
     await send(event, [At(event.sender.id), f"赠送成功,玩家{qq_id}获得{num2}金币！"])
+
 
 async def e_tf_points_single(event, server_name, timeset='mid', num=1, points=24, extra_operator=False):
     if not gb.is_server_open(server_name):
@@ -267,7 +276,8 @@ async def e_tf_points_single(event, server_name, timeset='mid', num=1, points=24
             await asyncio.sleep(1)
     if num > 1:
         await send(event, [At(event.sender.id), "本轮游戏结束！"])
-        
+
+
 async def e_tf_points_pk(event, server_name, num=3):
     re = await pk_invite(event, server_name, '24点')
     if re is None:
@@ -303,9 +313,9 @@ async def e_tf_points_pk(event, server_name, num=3):
                     if mesg.startswith('回答正确！'):
                         wintime[event2.sender.id] += 1
                         return [mesg, event2.sender.id]
-                    
-        mesg = await my_filter(waiter,'G', timeout=rantime)
-        
+
+        mesg = await my_filter(waiter, 'G', timeout=rantime)
+
         if mesg is None:
             await send(event, [At(id1), At(id2), "超时！"])
         elif mesg == 0:
@@ -345,9 +355,9 @@ async def nim_game(event, server_name):
                 return True
             elif str(event2.message_chain) == 'n':
                 return False
-            
+
     mesg = await my_filter(waiter, timeout=rantime)
-    
+
     if mesg is None:
         await send(event, "超时了！经验+1，金币-5", True)
     elif mesg == ans:
@@ -429,9 +439,9 @@ async def recite_wushiyin(event, server_name):
             return 0
         elif answer == '开始' or answer == 'start':
             return 1
-        
+
     start = await my_filter(waiter, 'G', timeout=60)
-    
+
     if start is None or start == 0:
         await send(event, "五十音抢答已取消!", True)
         return
@@ -452,11 +462,11 @@ async def recite_wushiyin(event, server_name):
             answer = str(event2.message_chain)
             if answer in dic[k]:
                 return event2.sender.id
-            elif event2.sender.id in Config.get()['game_admin'] and answer=='/关闭':
+            elif event2.sender.id in Config.get()['game_admin'] and answer == '/关闭':
                 return -1
-            
+
         qq_id = await my_filter(waiter, 'G', timeout=timeout)
-        
+
         if qq_id == -1:
             break
         answer = f'{k}:'+','.join(dic[k])
@@ -541,9 +551,9 @@ async def recite_words(event, server_name):
             return 0
         elif answer == '开始' or answer == 'start':
             return 1
-        
+
     start = await my_filter(waiter, 'G', timeout=60)
-    
+
     if start is None or start == 0:
         await send(event, "背单词已取消!", True)
         return
@@ -565,11 +575,11 @@ async def recite_words(event, server_name):
             answer = str(event2.message_chain)
             if answer == word:
                 return event2.sender.id
-            elif event2.sender.id in Config.get()['game_admin'] and answer=='/关闭':
+            elif event2.sender.id in Config.get()['game_admin'] and answer == '/关闭':
                 return -1
-            
-        qq_id = await my_filter(waiter,'G', timeout=remind_time)
-        
+
+        qq_id = await my_filter(waiter, 'G', timeout=remind_time)
+
         if qq_id == -1:
             break
         if qq_id is not None:
@@ -587,9 +597,9 @@ async def recite_words(event, server_name):
                 answer = str(event2.message_chain)
                 if answer == word:
                     return event2.sender.id
-                
-            qq_id = await my_filter(waiter, 'G',timeout=timeout-remind_time)
-            
+
+            qq_id = await my_filter(waiter, 'G', timeout=timeout-remind_time)
+
             if qq_id is not None:
                 if qq_id in winner:
                     winner[qq_id] += 1
@@ -660,6 +670,19 @@ async def play_game(event, server_name):
             await play_wordle(event, server_name)
     elif str(event.message_chain) == "/数织" or str(event.message_chain) == "/nonogram":
         await play_nonogram(event, server_name)
+    elif str(event.message_chain) == '/连珠消消乐':
+        await play_renju_eliminate(event, server_name)
+    elif str(event.message_chain) == '/趣味连线':
+        await play_connect_balls(event, server_name)
+    elif str(event.message_chain) == "/合成十":
+        await play_get10(event, server_name)
+
+    elif str(event.message_chain) == "/合成十AI":
+        ai = AIGet10(5, 5)
+        await send(event, "请稍等", True)
+        gif_bt, score = ai.quick_AI_game_gif_bytes()
+        await send(event, [f'AI本局得分：{score}'], img_bytes=gif_bt)
+
     elif str(event.message_chain) == "/24点" or str(event.message_chain) == "/24":
         await e_tf_points_single(event, server_name)
     elif str(event.message_chain) == "/nim":
@@ -700,7 +723,7 @@ async def play_game(event, server_name):
                 await send(event, "一次只能pk1~10道题", True)
                 return
             await e_tf_points_pk(event, server_name, num)
-            
+
     elif str(event.message_chain) == "/富豪榜":
         await e_get_rich_list(event, server_name)
     elif str(event.message_chain) == "/负豪榜":
@@ -737,9 +760,9 @@ async def send_pk_invite(event, server_name, tp):
                     return at
                 elif str(event.message_chain) == "取消" or str(event.message_chain) == "cancel":
                     return
-                
+
         at = await my_filter(waiter, 'G', timeout=30)
-        
+
     elif event.message_chain.count(At) >= 2:
         await send(event, "一次只能和一个人pk哦", True)
         return
@@ -772,9 +795,9 @@ async def respond_to_pk_invite(id1, id2, timeout):
         elif event2.sender.id == id1:
             if str(event2.message_chain) == '取消':
                 return 0
-            
-    is_accept = await my_filter(waiter, 'G',timeout=timeout)
-    
+
+    is_accept = await my_filter(waiter, 'G', timeout=timeout)
+
     if is_accept is None:
         is_accept = 0
     return is_accept
@@ -805,9 +828,9 @@ async def yes_or_no_filter(qqid, timeout):
                 return True
             elif answer == 'no' or answer == 'n' or answer == '不同意' or answer == '拒绝':
                 return False
-            
-    mesg = await my_filter(waiter,'G', timeout=timeout)
-    
+
+    mesg = await my_filter(waiter, 'G', timeout=timeout)
+
     if mesg is None:
         mesg = False
     return mesg
@@ -864,7 +887,7 @@ async def play_chess(event, server_name, tp):
         players[0], players[1] = players[1], players[0]
     chs = ChessType.class_name[tp](players=players)
     await send(event, [At(qqid[chs.turn]), f"\n{players[chs.turn]} 先行"])
-    await send(event, [],img_bytes=chs.get_img_bytes())
+    await send(event, [], img_bytes=chs.get_img_bytes())
     flag_of_undo = {qqid[0]: 3, qqid[1]: 3}
     flag_of_od = {qqid[0]: 3, qqid[1]: 3}
     while True:
@@ -893,8 +916,8 @@ async def play_chess(event, server_name, tp):
                 answer = str(event2.message_chain)
                 if answer == 'undo' or answer == '悔棋':
                     return -2
-                
-        move = await my_filter(waiter,'G', timeout=600)
+
+        move = await my_filter(waiter, 'G', timeout=600)
 
         if move is None:
             await send(event, [f"{players[chs.turn]} 超时判负！"])
@@ -915,14 +938,14 @@ async def play_chess(event, server_name, tp):
             mesg = await yes_or_no_filter(qqid[chs.turn], 60)
             if not mesg:
                 await send(event, [At(qqid[0]), At(qqid[1]), f'\n{players[chs.turn]} 不同意悔棋！游戏继续'])
-                await send(event, [],img_bytes=chs.get_img_bytes())
+                await send(event, [], img_bytes=chs.get_img_bytes())
                 continue
             try:
                 chs.undo()
             except Exception as e:
                 await send(event, [At(qqid[not chs.turn]), Plain(str(e))])
                 continue
-            await send(event, [],img_bytes=chs.get_img_bytes())
+            await send(event, [], img_bytes=chs.get_img_bytes())
             await send(event, [At(qqid[chs.turn]), '悔棋成功！请下棋'])
             continue
         elif move == -3:
@@ -938,7 +961,7 @@ async def play_chess(event, server_name, tp):
                 break
             else:
                 await send(event, [At(qqid[0]), At(qqid[1]), f'\n{players[not chs.turn]} 不同意和棋！游戏继续'])
-                await send(event, [],img_bytes=chs.get_img_bytes())
+                await send(event, [], img_bytes=chs.get_img_bytes())
                 continue
         try:
             mesg = chs.play(move, players[chs.turn])
@@ -946,7 +969,7 @@ async def play_chess(event, server_name, tp):
             await send(event, [At(qqid[chs.turn]), Plain(str(e))])
             continue
         if mesg is not None:
-            await send(event, [],img_bytes=chs.get_img_bytes())
+            await send(event, [], img_bytes=chs.get_img_bytes())
             if chs.outcome == 2:
                 await send_draw_mesg(qqid[0], qqid[1], players[0], players[1],
                                      chs.num, event, server_name)
@@ -959,11 +982,11 @@ async def play_chess(event, server_name, tp):
                 await send_win_mesg(qqid[chs.outcome], qqid[not chs.outcome], players[chs.outcome],
                                     players[not chs.outcome], chs.num, event, server_name)
             break
-        await send(event, [],img_bytes=chs.get_img_bytes())
+        await send(event, [], img_bytes=chs.get_img_bytes())
         await send(event, [At(qqid[chs.turn]), f"\n轮到 {players[chs.turn]} 下棋"])
-        
+
     await send(event, [At(qqid[0]), At(qqid[1]), "\n本局的棋谱动图如下"])
-    await send(event, [],img_bytes=chs.get_gif())
+    await send(event, [], img_bytes=chs.get_gif())
 
 
 async def chess_pk_ai(event, server_name, tp):
@@ -979,7 +1002,7 @@ async def chess_pk_ai(event, server_name, tp):
         chs = AntiTTT_with_AI(players=players)
         await send(event, f"{players[0]} 执黑先行")
     elif tp == ChessType.GOMOKU:
-        chs = Katagomo(players,Config.get()['katagomo_command'])
+        chs = Katagomo(players, Config.get()['katagomo_command'])
         await send(event, [At(qqid), "爷让你先走"])
     await send(event, [], img_bytes=chs.get_img_bytes())
     flag_of_undo = 3
@@ -1010,8 +1033,8 @@ async def chess_pk_ai(event, server_name, tp):
                                 pass
                         elif re.search('[\d+][,.。][\d+]', answer) and 1 < len(answer) < 6:
                             return answer
-                        
-            move = await my_filter(waiter,'G', timeout=300)
+
+            move = await my_filter(waiter, 'G', timeout=300)
 
             if move is None:
                 await send(event, [At(qqid), ' 你超时了，爷赢了！'])
@@ -1096,7 +1119,8 @@ async def katago(event, server_name, tp):
         return
     await send(event, 'katago启动中')
     classname = [None, KataGo, Katagomo]
-    command=Config.get()['katago_command'] if tp==1 else Config.get()['katagomo_command']
+    command = Config.get()['katago_command'] if tp == 1 else Config.get()[
+        'katagomo_command']
     kata = classname[tp](command)
     await send(event, [], img_bytes=kata.get_img_bytes())
     await send(event, '分析中..')
@@ -1115,9 +1139,9 @@ async def katago(event, server_name, tp):
             if event2.sender.id in Config.get()['game_admin']:
                 if x == '关闭':
                     return -1
-                
-        mesg = await my_filter(waiter,'G', timeout=120)
-        
+
+        mesg = await my_filter(waiter, 'G', timeout=120)
+
         if mesg is None or mesg == -1:
             await send(event, [At(event.sender.id), "分析结束！"])
             break
@@ -1136,6 +1160,7 @@ async def katago(event, server_name, tp):
     await send(event, [At(event.sender.id), "\n本局的棋谱动图如下"])
     await send(event, [], img_bytes=kata.get_gif())
 
+
 async def play_wordle_single(event, server_name):
     if not gb.is_server_open(server_name):
         await send(event, "当前群未开服！", True)
@@ -1152,34 +1177,35 @@ async def play_wordle_single(event, server_name):
     except KeyError:
         flag_of_wod_single[event.sender.group.id] = 1
     if event.sender.id in Config.get()['wordle_zhendui']:
-        wod = Wordle(4, mode=2) if '-sh' in str(event.message_chain) else Wordle(4)
+        wod = Wordle(
+            4, mode=2) if '-sh' in str(event.message_chain) else Wordle(4)
     elif '-sh' in str(event.message_chain):
         wod = Wordle(mode=2)
     else:
         wod = Wordle()
-    await send(event,[],PIL_image=wod.img)
+    await send(event, [], PIL_image=wod.img)
     await send(event, [At(event.sender.id), "您的wordle游戏开始！"])
     while True:
         def waiter(event2):
             if event2.sender.id == event.sender.id:
                 x = str(event2.message_chain)
-                if  x=='/放弃':
+                if x == '/放弃':
                     return -1
                 if len(x) == 5 and re.match('[A-Za-z]{5}', x):
                     return x
-                
+
         mesg = await my_filter(waiter, 'G', timeout=300)
-        
+
         if mesg is None:
             data = {'money': -5, 'exp': 5, 'wordle_lose': 1}
             await send(event, [At(event.sender.id),
-                                   f"超时，wordle结束！经验+{data['exp']},金币{data['money']},wordle负场+1"])
+                               f"超时，wordle结束！经验+{data['exp']},金币{data['money']},wordle负场+1"])
             gb.add_data(data, event.sender.id, server_name)
             break
         if mesg == -1:
             data = {'money': -5, 'exp': 5, 'wordle_lose': 1}
-            await send(event,[At(event.sender.id),
-                f"wordle已中止！经验+{data['exp']},金币{data['money']},wordle负场+1\n正确答案是：{wod.word0}"])
+            await send(event, [At(event.sender.id),
+                               f"wordle已中止！经验+{data['exp']},金币{data['money']},wordle负场+1\n正确答案是：{wod.word0}"])
             gb.add_data(data, event.sender.id, server_name)
             break
         input_str = mesg
@@ -1188,19 +1214,19 @@ async def play_wordle_single(event, server_name):
         except ValueError as e:
             await send(event, str(e))
             continue
-        await send(event, [At(event.sender.id)],PIL_image=wod.img)
+        await send(event, [At(event.sender.id)], PIL_image=wod.img)
         if mesg is None:
             continue
         elif mesg == 1:
             data = {'money': 10, 'exp': 15, 'wordle_win': 1}
             await send(event, [At(event.sender.id),
-                                   f"恭喜猜对！经验+{data['exp']},金币+{data['money']},wordle胜场+1\n正确答案是：{wod.word0}"])
+                               f"恭喜猜对！经验+{data['exp']},金币+{data['money']},wordle胜场+1\n正确答案是：{wod.word0}"])
             gb.add_data(data, event.sender.id, server_name)
             break
         elif mesg == 0:
             data = {'money': -5, 'exp': 5, 'wordle_lose': 1}
             await send(event, [At(event.sender.id),
-                                   f"很遗憾，猜词次数用光了！经验+{data['exp']},金币{data['money']},wordle负场+1\n正确答案是：{wod.word0}"])
+                               f"很遗憾，猜词次数用光了！经验+{data['exp']},金币{data['money']},wordle负场+1\n正确答案是：{wod.word0}"])
             gb.add_data(data, event.sender.id, server_name)
             break
     flag_of_wod_single[event.sender.group.id] -= 1
@@ -1218,19 +1244,19 @@ async def play_wordle(event, server_name):
         await send(event, "当前群正在进行单人wordle,不能同时进行多人wordle！", True)
         return
     flag_of_wod[event.sender.group.id] = True
-    
+
     if '-e' in str(event.message_chain):
         wod = Wordle(7)
     elif '-h' in str(event.message_chain):
         wod = Wordle(5)
     else:
         wod = Wordle()
-    await send(event, [],PIL_image=wod.img)
+    await send(event, [], PIL_image=wod.img)
     await send(event, "wordle游戏开始！")
     # winner={}
     # fail_id=-1
     while True:
-        
+
         def waiter(event2):
             if event2.sender.group.id == event.sender.group.id:
                 x = str(event2.message_chain)
@@ -1238,9 +1264,9 @@ async def play_wordle(event, server_name):
                     return -1
                 if len(x) == 5 and re.match('[A-Za-z]{%d}' % (wod.word_len), x):
                     return x, event2.sender.id
-                
-        mesg = await my_filter(waiter,'G', timeout=300)
-        
+
+        mesg = await my_filter(waiter, 'G', timeout=300)
+
         if mesg is None:
             await send(event, "超时，wordle结束！")
             break
@@ -1254,7 +1280,7 @@ async def play_wordle(event, server_name):
         except ValueError as e:
             await send(event, str(e))
             continue
-        await send(event, [],PIL_image=wod.img)
+        await send(event, [], PIL_image=wod.img)
         if mesg is None:
             continue
         elif mesg == 1:
@@ -1290,7 +1316,7 @@ async def play_minesweeper(event, server_name):
         mine = ms.MineSweeper(16, 16, 40)
     else:
         mine = ms.MineSweeper(10, 10, 15)
-    await send(event, [],PIL_image=mine.draw_panel())
+    await send(event, [], PIL_image=mine.draw_panel())
     winner = {}
     # fail_id=-1
     ms_admin = Config.get()['game_admin']
@@ -1302,9 +1328,9 @@ async def play_minesweeper(event, server_name):
                     return -1
                 if len(x) == 2 and re.match('[a-zA-Z][a-zA-z]', x):
                     return x, event2.sender.id
-                
-        mesg = await my_filter(waiter, 'G',timeout=120)
-        
+
+        mesg = await my_filter(waiter, 'G', timeout=120)
+
         if mesg is None:
             await send(event, "超时，扫雷结束！")
             flag_of_ms[event.sender.group.id] = False
@@ -1340,7 +1366,7 @@ async def play_minesweeper(event, server_name):
             winner[qq_id] += 1
         else:
             winner[qq_id] = 1
-        
+
     flag_of_ms[event.sender.group.id] = False
     end_mesg_chain = ['游戏结束！本轮扫雷得分如下：']
     for k in sorted(winner, key=winner.__getitem__, reverse=True):
@@ -1362,6 +1388,126 @@ async def play_minesweeper(event, server_name):
         await send(event, mesg_chain_fail)
 
 
+async def play_connect_balls(event, server_name):
+    if not gb.is_server_open(server_name):
+        await send(event, "当前群未开服！", True)
+        return
+    if not gb.is_register(event.sender.id, server_name):
+        await send(event, "您还未注册！", True)
+        return
+    if randint(0, 1):
+        game = ConnectBalls()
+    else:
+        game = ConnectBalls(6, 6, 7)
+    await send(event, [At(event.sender.id), ' 趣味连线开始！'], PIL_image=game.get_img_PIL())
+    while True:
+        def waiter(event2):
+            if event2.sender.id == event.sender.id:
+                if event2.message_chain.count(Image) == 1:
+                    return event2.message_chain.get(Image)[0]
+                elif str(event2.message_chain) == '中止':
+                    return -1
+
+        mesg = await my_filter(waiter, 'G', timeout=120)
+
+        if mesg is None:
+            await send(event, [At(event.sender.id), "超时，趣味连线结束！"])
+            break
+        elif mesg == -1:
+            await send(event, [At(event.sender.id), "趣味连线已中止！"])
+            break
+        import aiohttp
+        async with aiohttp.ClientSession() as session:
+            async with session.get(mesg.url) as resp:
+                img_bytes = await resp.read()
+        ret = game.play(img_bytes)
+        if ret == False:
+            await send(event, [At(event.sender.id), " 错误解！"])
+            continue
+        else:
+            await send(event, [At(event.sender.id), ' 恭喜回答正确！经验+10,金币+5'])
+            adddata = {'exp': 10, 'money': 5}
+            gb.add_data(adddata, event.sender.id, server_name)
+            break
+
+
+async def play_renju_eliminate(event, server_name):
+    if not gb.is_server_open(server_name):
+        await send(event, "当前群未开服！", True)
+        return
+    col = row = 9
+    game = RenjuEliminate(col, row)
+    await send(event, [At(event.sender.id), ' 连珠消消乐开始！'], PIL_image=game.frames)
+    while True:
+        def waiter(event2):
+            if event2.sender.id == event.sender.id:
+                x = str(event2.message_chain)
+                if re.search('[\d+][,.。][\d+][,.。][\d+][,.。][\d+]', x):
+                    return x
+                elif x == '中止':
+                    return -1
+
+        mesg = await my_filter(waiter, 'G', timeout=120)
+
+        if mesg is None:
+            await send(event, "超时，连珠消消乐结束！")
+            break
+        elif mesg == -1:
+            await send(event, "连珠消消乐已中止！")
+            break
+        else:
+            try:
+                ret = game.play(mesg)
+            except ValueError as e:
+                await send(event, str(e))
+                continue
+        if ret == -1:
+            await send(event, [At(event.sender.id), f" 棋盘已满，游戏结束！\n得分:{game.score}"])
+            await send(event, [], PIL_image=game.frames)
+            return
+        else:
+            await send(event, [At(event.sender.id), f' 当前得分:{game.score}'], PIL_image=game.frames)
+
+
+async def play_get10(event, server_name):
+    if not gb.is_server_open(server_name):
+        await send(event, "当前群未开服！", True)
+        return
+    col = row = 5
+    game = Get10(col, row)
+    await send(event, [At(event.sender.id), ' 合成十开始！'], PIL_image=game.get_img_PIL())
+    while True:
+        def waiter(event2):
+            if event2.sender.id == event.sender.id:
+                x = str(event2.message_chain)
+                if (3 <= len(x) <= 5 and re.match('\d+[,.。，]\d+', x)) or \
+                        (5 <= len(x) <= 7 and re.match('[(（)]\d+[,.。，]\d+[)）]', x)):
+                    return x
+                elif x == '中止':
+                    return -1
+
+        mesg = await my_filter(waiter, 'G', timeout=120)
+
+        if mesg is None:
+            await send(event, "超时，合成十结束！")
+            break
+        elif mesg == -1:
+            await send(event, "合成十已中止！")
+            break
+        else:
+            try:
+                ret = game.play(mesg)
+            except ValueError as e:
+                await send(event, str(e))
+                continue
+        if ret == -1:
+            await send(event, [At(event.sender.id), f" 无可合并项，游戏结束！\n得分:{game.score}"])
+            await send(event, [], PIL_image=game.frame)
+            return
+        else:
+            await send(event, [At(event.sender.id), f' 当前得分:{game.score}'], PIL_image=game.frame)
+
+
 async def play_nonogram(event, server_name):
     if not gb.is_server_open(server_name):
         await send(event, "当前群未开服！", True)
@@ -1374,9 +1520,9 @@ async def play_nonogram(event, server_name):
     except KeyError:
         pass
     flag_of_nn[server_name] = True
-    nono_admin=Config.get()['game_admin']
+    nono_admin = Config.get()['game_admin']
     nono = Nonogram()
-    await send(event, [],PIL_image=nono.board_img())
+    await send(event, [], PIL_image=nono.board_img())
     # winner={}
     # fail_id=-1
     while True:
@@ -1387,13 +1533,13 @@ async def play_nonogram(event, server_name):
                     return x, event2.sender.id
             if event2.sender.id in nono_admin and x == '/关闭':
                 return -1
-            
-        mesg = await my_filter(waiter, 'G',timeout=120)
-        
+
+        mesg = await my_filter(waiter, 'G', timeout=120)
+
         if mesg is None:
             await send(event, "超时，数织结束！")
             break
-        elif mesg==-1:
+        elif mesg == -1:
             await send(event, "管理员强制关闭数织！")
             break
         input_str = mesg[0]  # qq_id=mesg[1]
@@ -1402,7 +1548,7 @@ async def play_nonogram(event, server_name):
         except Exception as e:
             await send(event, Plain(str(e)))
             continue
-        await send(event, [],PIL_image=nono.board_img())
+        await send(event, [], PIL_image=nono.board_img())
         if mesg != -1:
             await send(event, f"游戏结束！共执行{mesg}次操作")
             break
@@ -1412,8 +1558,7 @@ async def play_nonogram(event, server_name):
         else:
             winner[qq_id]=1
         '''
-       
-            
+
     flag_of_nn[server_name] = False
     '''
     end_mesg_chain=['游戏结束！本轮数织得分如下：']
@@ -1459,7 +1604,7 @@ async def game_admin(event, server_name):
                 return
         mesg = gb.add_data(data, qq_id, server_name)
         await send(event, mesg)
-            
+
     elif str(event.message_chain).startswith('/change'):
         x = str(event.message_chain)
         x = x.replace('/change', '', 1)
@@ -1479,7 +1624,7 @@ async def game_admin(event, server_name):
                 return
         mesg = gb.change_data(data, qq_id, server_name)
         await send(event, mesg)
-        
+
     elif str(event.message_chain).startswith('/ckf'):
         x = str(event.message_chain).replace('/ckf', '', 1)
         if x.startswith(' '):
@@ -1494,8 +1639,7 @@ async def game_admin(event, server_name):
             return
         pf = gb.get_player_file(qq_id, server_name)
         mesg = f'qq号{qq_id}在本服的游戏信息：\n'\
-        f'昵称：{pf["nickname"]}\n账号id：{pf["gameid"]}\n等级：{pf["level"]}级'\
-        f'{pf["exp"]}经验\n财富：{pf["money"]}金币\n'\
-        f'wordle胜场：{pf["wordle_win"]}\nwordle负场：{pf["wordle_lose"]}'
+            f'昵称：{pf["nickname"]}\n账号id：{pf["gameid"]}\n等级：{pf["level"]}级'\
+            f'{pf["exp"]}经验\n财富：{pf["money"]}金币\n'\
+            f'wordle胜场：{pf["wordle_win"]}\nwordle负场：{pf["wordle_lose"]}'
         await send(event, mesg)
-

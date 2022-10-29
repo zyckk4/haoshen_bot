@@ -2,9 +2,10 @@
 """
 @author: zyckk4  https://github.com/zyckk4
 """
-from PIL import Image, ImageDraw, ImageFont
 from random import randint
 from io import BytesIO
+from PIL import Image, ImageDraw, ImageFont
+
 
 class ChessBasic():
     def __init__(self, col, row, zuozi):
@@ -71,7 +72,7 @@ class ChessWithImg(ChessBasic):
     stone_outline_width = 2
 
     def __init__(self, col, row, zuozi, is_col_label=True,
-            is_row_label=True, is_dot=True, show_num=True, show_players=None):
+                 is_row_label=True, is_dot=True, show_num=True, show_players=None):
         ChessBasic.__init__(self, col, row, zuozi)
         self.w = self.gap_w*(col-1)+self.line_wid*col+2*self.side_empty_w
         self.h = self.gap_h*(row-1)+self.line_wid*row+2*self.side_empty_h
@@ -214,29 +215,29 @@ class ChessWithImg(ChessBasic):
                 if self.board[x][y] != -1:
                     self.__draw_stone(draw, (x, y))
         return image
-    
+
     def get_img_bytes(self):
-        bt=BytesIO()
-        self.get_img_PIL().save(bt,format='PNG')
+        bt = BytesIO()
+        self.get_img_PIL().save(bt, format='PNG')
         return bt.getvalue()
-        
+
     def _save_frame(self, pop=False):
         if not pop:
             self.frames.append(self.get_img_PIL())
         else:
             self.frames.pop()
 
-    def get_gif(self,ratio=None):
-        bt=BytesIO()
-        frames=self.frames.copy()
+    def get_gif(self, ratio=None):
+        bt = BytesIO()
+        frames = self.frames.copy()
         if ratio is not None:
             if not isinstance(ratio, int):
                 raise ValueError('"ratio" must be int or None!')
             for img in frames:
-                if ratio>0:
-                    img.resize((self.w*ratio,self.h*ratio))
+                if ratio > 0:
+                    img.resize((self.w*ratio, self.h*ratio))
                 else:
-                    img.resize((self.w//-ratio,self.h//-ratio))
+                    img.resize((self.w//-ratio, self.h//-ratio))
         frames[0].save(
             bt,
             format="GIF",

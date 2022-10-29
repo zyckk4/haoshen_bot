@@ -36,6 +36,8 @@ class Gomoku(ChessWithImg):
             y = int(k[1])-1
         except ValueError:
             raise ValueError('输入不合法！')
+        if x < 0 or x > self.col-1 or y < 0 or y > self.row-1:
+            raise ValueError('输入超范围！')
         self._push(x, y)
         self._save_frame()
         self.check_end(x, y)
@@ -162,3 +164,68 @@ class Katagomo(Gomoku, KataAnalyse):
         self.kata_undo()
         self.kata_undo()
 
+
+if __name__ == '__main__':
+    path = 'tempgo.png'
+    print('反井字棋\n模式1：双人对战\n模式2：人机对战')
+    mode = input("请选择模式：")
+    if mode == '1':
+        players = [input("请输入玩家1昵称："), input("请输入玩家2昵称：")]
+        chs = AntiTTT(players=players, path=path)
+        chs.image.show()
+        while True:
+            try:
+                input_str = input(f"轮到 {players[chs.turn]} 下棋:")
+                if input_str == '悔棋':
+                    chs.undo()
+                    chs.image.show()
+                    continue
+                elif input_str == '中止':
+                    chs.save_gif()
+                    print("游戏结束！")
+                    print("棋谱gif已保存！")
+                    break
+                mesg = chs.play(input_str, players[chs.turn])
+                chs.image.show()
+                if mesg is not None:
+                    print(f'{players[chs.outcome]} 获得胜利！')
+                    break
+            except Exception as e:
+                print(e)
+
+    elif mode == '2':
+        from random import randint
+        player = input("请输入您的昵称：")
+        AI_turn = randint(0, 1)
+        players = [player, 'AI'] if AI_turn else ['AI', player]
+        print(f"{players[0]} 执黑先行")
+        chs = AntiTTT_with_AI(players=players, path=path)
+        chs.image.show()
+        while True:
+            if chs.turn == AI_turn:
+                print("轮到AI下棋")
+                mesg = chs.AI_play()
+                print("AI已下棋")
+                chs.image.show()
+            else:
+                try:
+                    input_str = input(f"轮到 {players[chs.turn]} 下棋:")
+                    if input_str == '悔棋':
+                        chs.undo()
+                        chs.image.show()
+                        continue
+                    elif input_str == '中止':
+                        chs.save_gif()
+                        print("游戏结束！")
+                        print("棋谱gif已保存！")
+                        break
+                    mesg = chs.play(input_str, players[chs.turn])
+                    chs.image.show()
+                except Exception as e:
+                    print(e)
+            if mesg is not None:
+                print(f'{players[chs.outcome]} 获得胜利！')
+                break
+    else:
+        print('输入错误！')
+my_katagomo_command = r'C:\Users\123\Documents\ZYC\katago\五子棋+重力棋+黑白棋katago\katago\engine\freestyle.exe gtp -model C:\Users\123\Documents\ZYC\katago\五子棋+重力棋+黑白棋katago\weights\freestyle.bin.gz -config C:\Users\123\Documents\ZYC\katago\五子棋+重力棋+黑白棋katago\katago\default.cfg'
