@@ -32,7 +32,9 @@ async def owner_control(event: FriendMessage):
         def waiter(event2):
             if event2.sender.id == event.sender.id:
                 return event2.message_chain
+            
         mesg_chain = await my_filter(waiter, 'F', 60)
+        
         await send(group_id, mesg_chain)
         await send(event, "发送成功", True)
 
