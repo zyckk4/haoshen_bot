@@ -9,7 +9,7 @@ from utils.utils import Listen, send
 
 plugin = Listen(
     'poison_chicken_soup',
-    r'获取毒鸡汤,输入"/毒鸡汤"以获取'
+    '获取毒鸡汤,输入"/毒鸡汤"以获取'
 )
 
 

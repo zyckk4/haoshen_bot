@@ -11,7 +11,7 @@ from utils.utils import Listen, send
 
 plugin = Listen(
     'phantom_tank_maker',
-    r'幻影坦克生成,输入"/幻影坦克+两张图片"以生成'
+    '幻影坦克生成,输入"/幻影坦克+两张图片"以生成'
 )
 
 
@@ -29,7 +29,7 @@ async def make_phantom_tank(event: MessageEvent):
         await send(event, [], PIL_image=img)
 
 
-class PhantomTank():
+class PhantomTank:
 
     @staticmethod
     def get_max_size(a, b):

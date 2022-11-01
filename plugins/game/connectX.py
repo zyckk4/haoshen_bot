@@ -82,12 +82,10 @@ class ConnectX(ChessWithImg):
 
 
 if __name__ == '__main__':
-    b = ConnectX(players=['zyc', 'forever豪3'])
-    # b.img.image.show()
-    mesg = b.play('4', 'zyc')
-    mesg = b.play('4', 'forever豪3')
-    mesg = b.play('4', 'zyc')
+    b = ConnectX(players=['zyckk', 'zyckk2'])
+    mesg = b.play('4', 'zyckk')
+    mesg = b.play('4', 'zyckk2')
+    mesg = b.play('4', 'zyckk')
     print(mesg)
-   # b.play('zyc2','4,2')
     b.image.show()
     b.save_gif()

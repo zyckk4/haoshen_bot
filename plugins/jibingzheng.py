@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 """
-Created on Sat Jul 23 21:25:15 2022
-
 @author: zyckk4  https://github.com/zyckk4
 """
 from io import BytesIO
@@ -12,7 +10,7 @@ from utils.utils import Listen, send
 
 plugin = Listen(
     'jibingzheng',
-    r'济兵证制作插件,输入"</计兵证|土木兵证> <@某人|图片>"以制作'
+    '济兵证制作插件,输入"</计兵证|土木兵证> <@某人|图片>"以制作'
 )
 
 

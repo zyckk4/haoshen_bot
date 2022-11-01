@@ -9,7 +9,7 @@ from statics.pero_dog_contents import pero_dog_contents
 
 plugin = Listen(
     'pero_dog_contents',
-    r'舔狗内容生成,输入"/舔"以生成'
+    '舔狗内容生成,输入"/舔"以生成'
 )
 
 

@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 """
-Created on Thu Jul 21 16:28:57 2022
-
 @author: zyckk4  https://github.com/zyckk4
 """
 import aiohttp

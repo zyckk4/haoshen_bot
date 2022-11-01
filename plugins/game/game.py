@@ -193,11 +193,11 @@ async def give_money(event, server_name):
         await send(event, "超时！", True)
         return
     try:
-        at = msg_chain.get(At)[0]
-        plain = msg_chain.get(Plain)[0]
+        at = msg_chain.get_first(At)
+        plain = msg_chain.get_first(Plain)
         qq_id = at.target
         num = int(str(plain))
-    except:
+    except Exception:
         await send(event, "指令错误！")
         return
     if qq_id == event.sender.id:
@@ -210,7 +210,7 @@ async def give_money(event, server_name):
     if num > file['money']:
         await send(event, "您没有这么多金币！")
         return
-    num2 = num-num//20
+    num2 = num - num//20
     data1 = {'money': -num}
     data2 = {'money': num2}
     mesg = gb.add_data(data2, qq_id, server_name)
@@ -716,7 +716,7 @@ async def play_game(event, server_name):
             "/24pk", '').replace(' ', '')
         try:
             num = int(x)
-        except:
+        except ValueError:
             await e_tf_points_pk(event, server_name)
         else:
             if num <= 0 or num > 10:
@@ -943,7 +943,7 @@ async def play_chess(event, server_name, tp):
             try:
                 chs.undo()
             except Exception as e:
-                await send(event, [At(qqid[not chs.turn]), Plain(str(e))])
+                await send(event, [At(qqid[not chs.turn]), str(e)])
                 continue
             await send(event, [], img_bytes=chs.get_img_bytes())
             await send(event, [At(qqid[chs.turn]), '悔棋成功！请下棋'])
@@ -966,7 +966,7 @@ async def play_chess(event, server_name, tp):
         try:
             mesg = chs.play(move, players[chs.turn])
         except Exception as e:
-            await send(event, [At(qqid[chs.turn]), Plain(str(e))])
+            await send(event, [At(qqid[chs.turn]), str(e)])
             continue
         if mesg is not None:
             await send(event, [], img_bytes=chs.get_img_bytes())
@@ -1049,7 +1049,7 @@ async def chess_pk_ai(event, server_name, tp):
                 try:
                     chs.player_undo()
                 except Exception as e:
-                    await send(event, [At(qqid), Plain(str(e))])
+                    await send(event, [At(qqid), str(e)])
                     continue
                 await send(event, [], img_bytes=chs.get_img_bytes())
                 await send(event, [At(qqid), ' 臭棋篓子让你悔棋又何妨'])
@@ -1060,7 +1060,7 @@ async def chess_pk_ai(event, server_name, tp):
             try:
                 mesg = chs.play(move, players[chs.turn])
             except Exception as e:
-                await send(event, [At(qqid), Plain(str(e))])
+                await send(event, [At(qqid), str(e)])
                 continue
         if mesg is not None:
             await send(event, [], img_bytes=chs.get_img_bytes())
@@ -1149,7 +1149,7 @@ async def katago(event, server_name, tp):
         try:
             mesg = kata.play_and_analyse(mesg)
         except ValueError as e:
-            await send(event, Plain(str(e)))
+            await send(event, str(e))
             continue
         if type(mesg) is int:
             await send(event, '棋局结束！')
@@ -1344,7 +1344,7 @@ async def play_minesweeper(event, server_name):
             location = ms.MineSweeper.parse_input(input_str)
             mine.mine(location[0], location[1])
         except Exception as e:
-            await send(event, Plain(str(e)))
+            await send(event, str(e))
             continue
         await send(event, [], PIL_image=mine.draw_panel())
         if mine.state == ms.GameState.FAIL:
@@ -1546,7 +1546,7 @@ async def play_nonogram(event, server_name):
         try:
             mesg = nono.play(input_str)
         except Exception as e:
-            await send(event, Plain(str(e)))
+            await send(event, str(e))
             continue
         await send(event, [], PIL_image=nono.board_img())
         if mesg != -1:

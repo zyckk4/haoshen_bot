@@ -8,7 +8,8 @@ from PIL import Image, ImageDraw, ImageFont
 
 
 class RenjuEliminate:
-    '''连珠消消乐'''
+    """连珠消消乐"""
+
     cell_h = 70
     cell_w = 70
     line_wid = 3
@@ -22,18 +23,20 @@ class RenjuEliminate:
         self.connect = connect
         self.score = 0
         self.frames = []
-        self.board = [[0 for _ in range(self.row)] for __ in range(self.col)]  # 0为空,1-6为颜色
+        self.board = [[0 for _ in range(self.row)]
+                      for __ in range(self.col)]  # 0为空,1-6为颜色
         self.gen_balls(7)
 
     def play(self, input_str):
-        k = input_str.replace('(', '').replace(')', '').replace('，', ',').replace('.', ',')
+        k = input_str.replace('(', '').replace(')', '').replace(
+            '，', ',').replace('.', ',')
         k = k.split(',', 3)
         try:
             x1 = int(k[0])-1
             y1 = int(k[1])-1
             x2 = int(k[2])-1
             y2 = int(k[3])-1
-        except:
+        except ValueError:
             raise ValueError('输入不合法！')
         if x1 < 0 or x1 > self.col-1 or y1 < 0 or y1 > self.row-1 or \
                 x2 < 0 or x2 > self.col-1 or y2 < 0 or y2 > self.row-1:
@@ -45,7 +48,7 @@ class RenjuEliminate:
         self.frames = []
         self.board[x2][y2] = self.board[x1][y1]
         self.board[x1][y1] = 0
-        cnt,board_temp=self.check_eliminate(x2, y2)
+        cnt, board_temp = self.check_eliminate(x2, y2)
         if cnt != 0:
             self.board = [[(not board_temp[j][i] and self.board[j][i])
                            for i in range(self.row)] for j in range(self.col)]
@@ -84,11 +87,11 @@ class RenjuEliminate:
                     return -1
         self.frames.append(self.get_img_PIL())
         return 0
-    
+
     def eliminate(self):
-        '''消除并得分'''
+        """消除并得分"""
         pass
-        
+
     def count_base(self, x, y, v):
         s = -1
         num = self.board[x][y]
@@ -130,7 +133,7 @@ class RenjuEliminate:
         return True
 
     def is_moveable(self, x1, y1, x2, y2):
-        '''递归找出所有和(x1,y1)处相同且联通的点,从而判断是否可以移动'''
+        """递归找出所有和(x1,y1)处相同且联通的点,从而判断是否可以移动"""
         if x1 == x2 and y1 == y2:
             return False
         elif self.board[x1][y1] == 0 or self.board[x2][y2] != 0:
@@ -141,18 +144,18 @@ class RenjuEliminate:
     def is_moveable_base(self, x1, y1, x2, y2, board_temp):
         if abs(x1 - x2) + abs(y1 - y2) == 1:
             return True
-        board_temp[x1][y1]=1
+        board_temp[x1][y1] = 1
         if y1 > 0 and self.board[x1][y1-1] == 0 and board_temp[x1][y1-1] != 1 and \
-            self.is_moveable_base(x1, y1-1, x2, y2, board_temp):
+                self.is_moveable_base(x1, y1-1, x2, y2, board_temp):
             return True
         if y1 < self.col-1 and self.board[x1][y1+1] == 0 and board_temp[x1][y1+1] != 1 and \
-            self.is_moveable_base(x1, y1+1, x2, y2, board_temp):
+                self.is_moveable_base(x1, y1+1, x2, y2, board_temp):
             return True
         if x1 > 0 and self.board[x1-1][y1] == 0 and board_temp[x1-1][y1] != 1 and \
-            self.is_moveable_base(x1-1, y1, x2, y2, board_temp):
+                self.is_moveable_base(x1-1, y1, x2, y2, board_temp):
             return True
         if x1 < self.row-1 and self.board[x1+1][y1] == 0 and board_temp[x1+1][y1] != 1 and \
-            self.is_moveable_base(x1+1, y1, x2, y2, board_temp):
+                self.is_moveable_base(x1+1, y1, x2, y2, board_temp):
             return True
         return False
 
@@ -191,7 +194,8 @@ class RenjuEliminate:
         draw = ImageDraw.Draw(img)
         for i in range(0, self.col):
             for j in range(0, self.row):
-                fill = (255, 255, 255) if self.board[i][j] == 0 else COLOR[self.board[i][j]-1]
+                fill = (
+                    255, 255, 255) if self.board[i][j] == 0 else COLOR[self.board[i][j]-1]
                 draw.rectangle((i*(self.cell_w+self.line_wid)+self.line_wid, j*(self.cell_h+self.line_wid)+self.line_wid,
                                 i*(self.cell_w+self.line_wid)+self.cell_w+self.line_wid, j*(self.cell_h+self.line_wid)+self.cell_h+self.line_wid),
                                fill=fill, width=0)

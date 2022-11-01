@@ -9,7 +9,7 @@ from utils.utils import Listen, send
 
 plugin = Listen(
     'mcmod_search',
-    r'我的世界模组搜索,输入"/mcmod 内容"以搜索'
+    '我的世界模组搜索,输入"/mcmod 内容"以搜索'
 )
 
 

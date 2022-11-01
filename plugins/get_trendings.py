@@ -9,7 +9,7 @@ from utils.utils import Listen, send
 
 plugin = Listen(
     'get_news',
-    r'获取知乎和微博热榜的插件,输入"/知乎热榜"或"/微博热榜"以查询'
+    '获取知乎和微博热榜的插件,输入"/知乎热榜"或"/微博热榜"以查询'
 )
 
 

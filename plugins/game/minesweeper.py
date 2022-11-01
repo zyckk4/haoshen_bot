@@ -1,8 +1,8 @@
-from PIL import Image, ImageDraw, ImageColor, ImageFont
-from enum import Enum
 import random
-from typing import Tuple
 from time import time
+from enum import Enum
+from typing import Tuple
+from PIL import Image, ImageDraw, ImageColor, ImageFont
 
 COLUMN_NAME = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
@@ -15,7 +15,8 @@ class GameState(Enum):
 
 
 class Cell:
-    def __init__(self, is_mine: bool, row: int = 0, column: int = 0, is_mined: bool = False, is_marked: bool = False):
+    def __init__(self, is_mine: bool, row: int = 0, column: int = 0,
+                 is_mined: bool = False, is_marked: bool = False):
         self.is_mine = is_mine
         self.is_mined = is_mined
         self.is_marked = is_marked
@@ -40,17 +41,19 @@ class MineSweeper:
         self.mines = mines
         self.start_time = time()
         self.actions = 0
-        self.font = ImageFont.truetype("statics/fonts/calibri.ttf", 40)#00TT.TTF
-        self.panel = [[Cell(False, row=r, column=c) for c in range(column)] for r in range(row)]
+        self.font = ImageFont.truetype(
+            "statics/fonts/calibri.ttf", 40)
+        self.panel = [[Cell(False, row=r, column=c)
+                       for c in range(column)] for r in range(row)]
         self.state = GameState.PREPARE
 
     def __str__(self):
         return f"[MineSweeper] {self.mines} in {self.row}*{self.column}"
 
-
     def draw_panel(self) -> Image.Image:
         #start = time()
-        img = Image.new("RGB", (80 * self.column, 80 * self.row), (255, 255, 255))
+        img = Image.new(
+            "RGB", (80 * self.column, 80 * self.row), (255, 255, 255))
         self.__draw_split_line(img)
         self.__draw_cell_cover(img)
         self.__draw_cell(img)
@@ -60,9 +63,11 @@ class MineSweeper:
     def __draw_split_line(self, img: Image.Image):
         draw = ImageDraw.Draw(img)
         for i in range(0, self.row):
-            draw.line((0, i * 80, img.size[0], i * 80), fill=ImageColor.getrgb("black"))
+            draw.line((0, i * 80, img.size[0], i * 80),
+                      fill=ImageColor.getrgb("black"))
         for i in range(0, self.column):
-            draw.line((i * 80, 0, i * 80, img.size[1]), fill=ImageColor.getrgb("black"))
+            draw.line(
+                (i * 80, 0, i * 80, img.size[1]), fill=ImageColor.getrgb("black"))
 
     def __draw_cell_cover(self, img: Image.Image):
         draw = ImageDraw.Draw(img)
@@ -89,15 +94,19 @@ class MineSweeper:
                 if not cell.is_mined:
                     font_size = self.font.getsize("AA")
                     index = f"{COLUMN_NAME[i]}{COLUMN_NAME[j]}"
-                    center = (80 * (j + 1) - (font_size[0] / 2) - 40, 80 * (i + 1) - 40 - (font_size[1] / 2))
-                    draw.text(center, index, fill=ImageColor.getrgb("black"), font=self.font)
+                    center = (
+                        80 * (j + 1) - (font_size[0] / 2) - 40, 80 * (i + 1) - 40 - (font_size[1] / 2))
+                    draw.text(center, index, fill=ImageColor.getrgb(
+                        "black"), font=self.font)
                 else:
                     count = self.count_around(i, j)
                     if count == 0:
                         continue
                     font_size = self.font.getsize(str(count))
-                    center = (80 * (j + 1) - (font_size[0] / 2) - 40, 80 * (i + 1) - 40 - (font_size[1] / 2))
-                    draw.text(center, str(count), fill=self.__get_count_text_color(count), font=self.font)
+                    center = (
+                        80 * (j + 1) - (font_size[0] / 2) - 40, 80 * (i + 1) - 40 - (font_size[1] / 2))
+                    draw.text(center, str(count), fill=self.__get_count_text_color(
+                        count), font=self.font)
 
     @staticmethod
     def __get_count_text_color(count):

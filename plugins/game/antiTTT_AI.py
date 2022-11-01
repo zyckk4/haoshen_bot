@@ -9,7 +9,7 @@ import copy
 
 
 class AntiTTT_AI:
-    '''
+    """
     用主类继承这个类以实现AI功能
 
     // record all the scores of the chessboards
@@ -20,7 +20,7 @@ class AntiTTT_AI:
     // * When i = m[board] > 0: it means it wins  the game at the last but i step
     // * IN PARTICULAR, IF THE GAME[i] DRAWS, m[i] = 64
     // * When m[board] == 0: it means it is not yet explored
-    '''
+    """
 
     def __init__(self):
         self.m = {}
@@ -33,9 +33,9 @@ class AntiTTT_AI:
         for x in range(self.col):
             for y in range(self.row):
                 if self.board[x][y] == 0:
-                    board_int += 2**(2*self.row*self.col-self.row*x-y-1)
+                    board_int += 2**(2*self.row*self.col - self.row*x - y - 1)
                 elif self.board[x][y] == 1:
-                    board_int += 2**(self.row*self.col-self.row*x-y-1)
+                    board_int += 2**(self.row*self.col - self.row*x - y - 1)
         return board_int
 
     def a_cnt(self, x, y, v):

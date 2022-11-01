@@ -24,8 +24,8 @@ class Go(ChessWithImg):
         if player is not None:
             try:
                 t = self.players.index(player)
-            except:
-                raise KeyError('玩家不存在！')
+            except ValueError:
+                raise ValueError('玩家不存在！')
             if t != self.turn:
                 raise ValueError('还没轮到你下棋！')
         k = input_str.replace('(', '').replace(')', '').replace(
@@ -42,7 +42,6 @@ class Go(ChessWithImg):
         self._save_frame()
         self.turn ^= 1
 
-    # 放弃一手
     def pass_(self):
         # 拷贝棋盘状态，记录前三次棋局
         self.last_3_positions = copy.deepcopy(self.last_2_positions)
@@ -51,7 +50,6 @@ class Go(ChessWithImg):
         # 轮到下一玩家
         self.turn ^= 1
 
-    # 悔棋函数
     def undo(self):
         if self.regret == 0:
             if self.num == 0:
@@ -108,12 +106,12 @@ class Go(ChessWithImg):
             raise ValueError("打劫！请找劫财后再提劫")
 
     def if_dead(self, deadList, yourChessman, coord):
-        '''
+        """
         判断棋子（种类为yourChessman，位置为coord）是否无气（死亡），有气则返回False，无气则返回无气棋子的列表
         本函数是游戏规则的关键，初始deadlist只包含了自己的位置，每次执行时，函数尝试寻找coord周围有没有空的位置，有则结束，返回False代表有气；
         若找不到，则找自己四周的同类（不在deadlist中的）是否有气，即调用本函数，无气，则把该同类加入到deadlist，然后找下一个邻居，只要有一个有气，返回False代表有气；
         若四周没有一个有气的同类，返回deadlist,至此结束递归
-        '''
+        """
         for i in (-1, 1):
             if [coord[0]+i, coord[1]] not in deadList and 0 <= coord[0]+i < self.col:
                 if self.board[coord[0]+i][coord[1]] == -1:
@@ -141,7 +139,7 @@ class Go(ChessWithImg):
         return deadList
 
     def get_deadlist(self, x, y):
-        '''落子后，依次判断四周是否有棋子被杀死，并返回死棋位置列表'''
+        """落子后，依次判断四周是否有棋子被杀死，并返回死棋位置列表"""
         deadlist = []
         for i in (-1, 1):
             if 0 <= y+i < self.row and self.board[x][y+i] == (not self.turn) and ([x, y+i] not in deadlist):
@@ -155,12 +153,12 @@ class Go(ChessWithImg):
         return deadlist
 
     def __recover(self, lst_recover, b_or_w):
-        '''恢复位置列表lst_recover为b_or_w指定的棋子'''
+        """恢复位置列表lst_recover为b_or_w指定的棋子"""
         for k in lst_recover:
             self.board[k[0]][k[1]] = b_or_w
 
     def __kill(self, lst_kill):
-        ''' 杀死位置列表lst_kill中的棋子'''
+        """杀死位置列表lst_kill中的棋子"""
         for k in lst_kill:
             self.board[k[0]][k[1]] = -1
 

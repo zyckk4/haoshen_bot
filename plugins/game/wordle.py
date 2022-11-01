@@ -54,7 +54,7 @@ class Wordle:
             return 0
 
     def get_state(self, word):
-        '''返回0代表该字母不在要猜的单词中；1代表该字母在单词中但是不在此位置；2代表字母，位置均正确'''
+        """返回0代表该字母不在要猜的单词中；1代表该字母在单词中但是不在此位置；2代表字母，位置均正确"""
         lst_state = []
         for i in range(self.word_len):
             if word[i] not in self.word0:

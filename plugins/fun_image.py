@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 """
-Created on Fri Jul 22 18:03:56 2022
-
 @author: zyckk4  https://github.com/zyckk4
 """
 from io import BytesIO
@@ -12,7 +10,7 @@ from utils.utils import Listen,send,my_filter
 
 plugin = Listen(
     'fun_image',
-    r'趣图制作插件,输入"/制图"以开始'
+    '趣图制作插件,输入"/制图"以开始'
 )
 
 

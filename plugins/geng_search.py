@@ -8,7 +8,7 @@ from utils.utils import Listen, send
 
 plugin = Listen(
     'geng_search',
-    r'搜梗,输入"/搜梗 内容"以查询'
+    '搜梗,输入"/搜梗 内容"以查询'
 )
 
 # TODO: 坏了要修

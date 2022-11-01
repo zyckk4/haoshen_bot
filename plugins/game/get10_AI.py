@@ -26,7 +26,7 @@ class AIGet10(Get10):
         return judge_score
 
     def evaluate_filled(self, board_try):
-        '''模拟填完数组中空位后算分'''
+        """模拟填完数组中空位后算分"""
         judge_score = 0
         for j in range(self.row):
             for i in range(self.col):

@@ -8,7 +8,7 @@ from utils.utils import Listen, send
 
 plugin = Listen(
     'random_wife',
-    r'二次元老婆生成,输入"/来个老婆"以获取'
+    '二次元老婆生成,输入"/来个老婆"以获取'
 )
 
 

@@ -81,23 +81,37 @@ class Slscq:
         self.data = json.load(open(json_path, 'r', encoding='utf-8'))
 
     def get_random_element(self, element_type: str) -> str:
-        total = len(self.data[element_type]) - 1
-        return self.data[element_type][random.randint(0, total)]
+        return random.choice(self.data[element_type])
 
-    def get_title(self) -> str: return self.get_random_element('title')
-    def get_noun(self) -> str: return self.get_random_element('noun')
-    def get_verb(self) -> str: return self.get_random_element('verb')
-    def get_adverb(self, adverb_type: int) -> str: return self.get_random_element(
-        'adverb_1' if (adverb_type == 1) else 'adverb_2')
+    def get_title(self) -> str:
+        return self.get_random_element('title')
 
-    def get_phrase(self) -> str: return self.get_random_element('phrase')
-    def get_sentence(self) -> str: return self.get_random_element('sentence')
-    def get_parallel_sentence(
-        self) -> str: return self.get_random_element('parallel_sentence')
+    def get_noun(self) -> str:
+        return self.get_random_element('noun')
 
-    def get_beginning(self) -> str: return self.get_random_element('beginning')
-    def get_body(self) -> str: return self.get_random_element('body')
-    def get_ending(self) -> str: return self.get_random_element('ending')
+    def get_verb(self) -> str:
+        return self.get_random_element('verb')
+
+    def get_adverb(self, adverb_type: int) -> str:
+        return self.get_random_element('adverb_1' if adverb_type == 1 else 'adverb_2')
+
+    def get_phrase(self) -> str:
+        return self.get_random_element('phrase')
+
+    def get_sentence(self) -> str:
+        return self.get_random_element('sentence')
+
+    def get_parallel_sentence(self) -> str:
+        return self.get_random_element('parallel_sentence')
+
+    def get_beginning(self) -> str:
+        return self.get_random_element('beginning')
+
+    def get_body(self) -> str:
+        return self.get_random_element('body')
+
+    def get_ending(self) -> str:
+        return self.get_random_element('ending')
 
     def replace_xx(self, input_str: str, them: str) -> str:
         return input_str.replace('xx', them)

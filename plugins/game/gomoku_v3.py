@@ -24,7 +24,7 @@ class Gomoku(ChessWithImg):
         if player is not None:
             try:
                 t = self.players.index(player)
-            except:
+            except ValueError:
                 raise ValueError('玩家不存在！')
             if t != self.turn:
                 raise ValueError('还没轮到你下棋！')

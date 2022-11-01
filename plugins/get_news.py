@@ -8,7 +8,7 @@ from utils.utils import Listen, send
 
 plugin = Listen(
     'get_news',
-    r'日报插件,输入"/日报"以获取'
+    '日报插件,输入"/日报"以获取'
 )
 
 

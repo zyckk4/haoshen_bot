@@ -183,11 +183,3 @@ lst_zuozi=[
      [(3,5),(4,5),(4,6),(4,7),(4,8),(5,4),(5,5),(5,6),(5,7),(5,8),(6,3),(6,4),(6,5),(7,4)]]
     ]
 '''
-
-
-if __name__ == '__main__':
-    b = Reversi(['zyc', 'zyckk4'], max_col=8, max_row=8, show_num=True)
-    # b.img.image.show()
-    print(b.play('zyc', '5,6'))
-    # print(b.play('forever豪3','4,6'))
-    b.img.image.show()

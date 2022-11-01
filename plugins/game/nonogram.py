@@ -6,7 +6,7 @@ from random import randint
 from PIL import Image, ImageDraw, ImageFont, ImageColor
 
 
-class Nonogram():
+class Nonogram:
     def __init__(self, col=7, row=7, mine_num=-1, mode=0):
         self.col = col
         self.row = row
@@ -76,12 +76,6 @@ class Nonogram():
         return label
 
     def __tag(self, coord, tp):
-        '''
-        if self.board_sign[coord[0]][coord[1]] ==tp:
-            self.board_sign[coord[0]][coord[1]]=0
-        else:
-            self.board_sign[coord[0]][coord[1]]=tp
-        '''
         if self.board_sign[coord[0]][coord[1]] == tp:
             return -1
         self.board_sign[coord[0]][coord[1]] = tp

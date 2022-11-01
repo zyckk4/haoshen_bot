@@ -7,8 +7,9 @@ from utils.utils import Listen, send
 
 plugin = Listen(
     'get_news',
-    r'github API,输入"/zen"以获取github禅语'
+    'github API,输入"/zen"以获取github禅语'
 )
+
 
 @plugin.all_mesg()
 async def github_zen(event):

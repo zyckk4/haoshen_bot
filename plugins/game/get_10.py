@@ -51,11 +51,11 @@ class Get10:
 
     @property
     def max_board_num(self):
-        '''board中的最大数的值'''
+        """board中的最大数的值"""
         return max([max(column) for column in self.board])
 
     def fill_empty(self):
-        '''给下落后的空位赋新值'''
+        """给下落后的空位赋新值"""
         max_board_num = self.max_board_num
         if max_board_num <= 3:
             for i in range(self.col):
@@ -108,7 +108,7 @@ class Get10:
                             self.board[i][j] = max_board_num
 
     def drop(self):
-        '''消除后的下落操作'''
+        """消除后的下落操作"""
         while True:
             k = False
             for i in range(self.col):
@@ -159,7 +159,7 @@ class Get10:
                 (j < self.row - 1 and self.board[i][j] == self.board[i][j+1]))
 
     def is_gameover(self):
-        '''判断是否无可消去项'''
+        """判断是否无可消去项"""
         for i in range(self.col):
             for j in range(self.row):
                 if self.is_legal(i, j):

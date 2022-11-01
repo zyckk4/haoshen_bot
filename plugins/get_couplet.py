@@ -8,7 +8,7 @@ from utils.utils import Listen, send
 
 plugin = Listen(
     'get_couplet',
-    r'作对联,输入"/对联 内容"以查询'
+    '作对联,输入"/对联 内容"以查询'
 )
 
 

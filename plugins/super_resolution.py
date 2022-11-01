@@ -15,7 +15,7 @@ from mirai import Plain, Image, MessageEvent
 
 plugin = Listen(
     'super_resolution',
-    r'图片超分,输入“/超分+图片”以超分'
+    '图片超分,输入“/超分+图片”以超分'
 )
 handling = False
 
@@ -27,13 +27,13 @@ async def super_resolution(event: MessageEvent):
         if handling:
             await send(event, ['当前已有超分任务正在进行！'], True)
             return
-        text = str(event.message_chain.get(Plain)[0]).replace('/超分', '', 1)
+        text = str(event.message_chain.get_first(Plain)).replace('/超分', '', 1)
         if text.startswith(' '):
             text = text.replace(' ', '', 1)
         if event.message_chain.count(Image) == 0:
             await send(event, "请在60s内发送图片", True)
 
-            def waiter(event2):
+            def waiter(event2: MessageEvent):
                 if event.sender.id == event2.sender.id:
                     if event2.message_chain.count(Image) == 1:
                         img = event2.message_chain.get(Image)
@@ -41,7 +41,7 @@ async def super_resolution(event: MessageEvent):
                     elif str(event2.message_chain) == "取消" or str(event2.message_chain) == "cancel":
                         return
 
-            img = await my_filter(waiter, 'G', timeout=60)
+            img = await my_filter(waiter, 'A', timeout=60)
 
             if img is None:
                 await send(event, "请求已取消！", True)
@@ -74,7 +74,6 @@ async def super_resolution(event: MessageEvent):
 async def do_super_resolution(
     image_data: bytes, resize: bool = False, is_gif: bool = False
 ):
-    global processing
     image = IMG.open(BytesIO(image_data))
     image_size = image.size[0] * image.size[1]
 

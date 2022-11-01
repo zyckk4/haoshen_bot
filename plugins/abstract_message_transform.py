@@ -8,7 +8,7 @@ from statics.abstract_message_transformer_data import pinyin, emoji
 
 plugin = Listen(
     'abstract_message_transform',
-    r'一个查询英文缩写意思的插件,输入"/抽象 内容"以查询'
+    '一个查询英文缩写意思的插件,输入"/抽象 内容"以查询'
 )
 
 
