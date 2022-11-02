@@ -8,7 +8,7 @@ from utils.utils import Listen, send, my_filter
 
 plugin = Listen(
     'net_complie',
-    r'在线编程,输入"/在线编程帮助"查看帮助'
+    '在线编程,输入"/在线编程帮助"查看帮助'
 )
 
 # TODO: 坏了要修

@@ -7,7 +7,7 @@ from utils.utils import Listen, send
 
 plugin = Listen(
     'MCmusic',
-    r'我的世界唱片,输入"/mcr"获取唱片列表,输入"/mcr 唱片名"获取音乐'
+    '我的世界唱片,输入"/mcr"获取唱片列表,输入"/mcr 唱片名"获取音乐'
 )
 
 

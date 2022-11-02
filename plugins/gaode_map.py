@@ -9,7 +9,7 @@ from utils.utils import Listen, send, Config
 
 plugin = Listen(
     'gaode_map',
-    r'高德地图API,输入"/经纬 城市"或"/天气 城市"或"/天气预报 "'
+    '高德地图API,输入"</经纬|/天气|/天气预报> 城市"以查询'
 )
 
 
