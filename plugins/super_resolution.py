@@ -10,8 +10,8 @@ import numpy as np
 from PIL import Image as IMG, ImageSequence
 from realesrgan import RealESRGANer
 from basicsr.archs.rrdbnet_arch import RRDBNet
-from utils.utils import Listen, send, my_filter
 from mirai import Plain, Image, MessageEvent
+from utils.utils import Listen, send, my_filter
 
 plugin = Listen(
     'super_resolution',
