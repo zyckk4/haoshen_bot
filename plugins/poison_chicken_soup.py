@@ -15,7 +15,7 @@ plugin = Listen(
 @plugin.all_mesg()
 async def poison_chicken_soup(event: MessageEvent):
     if str(event.message_chain) == '/毒鸡汤':
-        url = 'https://api.shadiao.app/du'
+        url = 'https://api.shadiao.pro/du'
         headers = {
             'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.93 Safari/537.36'
         }
