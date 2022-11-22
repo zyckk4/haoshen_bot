@@ -14,7 +14,7 @@ help_mesg = '''豪神豪神功能列表
 3./百科,/oeis.或/mcwiki+你想搜索的内容，查看相应内容,输入//+链接名可以追加点击图中的一个链接
 4./纯几何吧,/纯几何吧人,/纯几何吧签+内容以搜索纯几何吧的帖子.输入//+链接名可以追加点击图中的一个链接
 5./latex+LaTeX代码可以生成LaTeX图片
-6.多项式功能./hm+多项式生成热图，/tri+多项式生成系数阵
+6.图片超分.输入“/超分+图片”以超分
 7.在线编程.输入/+<R,vb,ts,kt,pas,lua,node.js,go,swift,rs,sh,pl,erl,scala,cs,rb,cpp,c,java,py3,py,php>以开始.
 如果程序需要输入，请在代码前面添加一行“输入：+你想输入的内容”(是中文冒号)
 8.'/缩',拼音缩写查询
@@ -43,18 +43,6 @@ help_mesg = '''豪神豪神功能列表
 31.游戏已上线！！！输入"/游戏"或'/game'查看帮助
 32.更多功能等你探索!'''
 
-mirai_plugins_mesg = '''#插件指令列表：
-插件1：#ph,#bw,#5k兆,#0,#osu,#marble,#flash,#erode,emoji合成;
-插件2：/pet;
-插件3：锤,贴,踢,打,抱,踩;
-插件4：#音乐,#语音,#外链,#QQ,#网易,#网易电台,#酷狗,#千千;
-#插件详情信息：
-插件1,DrawMeme - 基于Skiko的奇怪的图片生成器,(https://github.com/LaoLittle/DrawMeme)
-插件2,Petpet - 生成各种奇怪的图片,(https://github.com/Dituon/petpet)
-插件3,HitHit锤人插件,(https://gitee.com/arisaka-iris/hithit)
-插件4,Mirai点歌插件,(https://github.com/khjxiaogu/MiraiSongPlugin)
-请支持插件原作者！'''
-
 repo_info = '''项目地址：
 https://github.com/zyckk4/haoshen_bot
 如果觉得好可以点个star⭐，如出现bug，或您有任何建议，欢迎反馈！'''
@@ -71,9 +59,6 @@ async def help_info(event: GroupMessage):
             str(event.message_chain) == '/help' or \
             str(event.message_chain) == '/帮助':
         await send(event, [], PIL_image=text_to_img(help_mesg))
-
-    elif str(event.message_chain) == '/插件':
-        await send(event, [], PIL_image=text_to_img(mirai_plugins_mesg))
 
     elif str(event.message_chain) == '/项目地址':
         await send(event, repo_info)
