@@ -33,7 +33,7 @@ class Core:
         if not os.path.exists('log'):
             os.mkdir('log')
         fh = logging.FileHandler(
-            f'./log/{datetime.now().strftime("%Y.%m.%d_%X")}.log',
+            f'./log/{datetime.now().strftime("%Y.%m.%d_%H.%M.%S")}.log',
             encoding='utf-8',
         )
         #sh = logging.StreamHandler()
