@@ -2,7 +2,6 @@
 """
 @author: zyckk4  https://github.com/zyckk4
 """
-import importlib
 from asyncio import exceptions as e
 from urllib.request import quote
 import aiohttp
@@ -10,12 +9,10 @@ from mirai import Face, MessageEvent
 from .get_latex import get_latex
 from utils.utils import Listen, send, Config
 
-importlib.import_module('plugins.math.ETC_search')
-
 
 plugin = Listen(
     'math',
-    r'数学相关功能'
+    '数学相关功能'
 )
 
 
