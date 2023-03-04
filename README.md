@@ -55,6 +55,21 @@ q群管理：可选开启复读禁言，可以帮助管理员禁言。
 
 在qq群内输入"/help"即可查看所有功能
 
+# 常见问题
+若您在首次部署本bot时出现cariosvg报错：
+```
+OSError: no library called "cairo" was found
+no library called "libcairo-2" was found
+cannot load library 'libcairo.so': error 0x7e
+cannot load library 'libcairo.2.dylib': error 0x7e
+cannot load library 'libcairo-2.dll': error 0x7e
+```
+这是因为缺少gtk2环境，可以用链接：
+
+https://github.com/tschoonj/GTK-for-Windows-Runtime-Environment-Installer/releases/download/2021-01-30/gtk2-runtime-2.24.33-2021-01-30-ts-win64.exe
+
+下载，或者假如您不使用相关功能的话，注释掉mychess.py下cariosvg相关代码即可
+
 # 代码说明
 项目基于yirimirai，并进一步做了一些封装
 
