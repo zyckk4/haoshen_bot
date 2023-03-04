@@ -1,7 +1,7 @@
 yiri-mirai==0.2.7
 yiri-mirai-trigger==0.3.1
 aiohttp
-uvicorn
+hypercorn
 pyyaml
 cairosvg
 chess
