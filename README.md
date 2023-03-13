@@ -49,13 +49,16 @@ pip install -r requirements.txt
 
 学习功能：百度百科，在线编程，Wolfram|Alpha请求，LaTeX图片生成，oeis数列搜索，等等；
 
-生活休闲：数十种趣味/实用小功能，例如趣味图片制作，高德地图api，搜索MCwiki和MC模组，自动生成狗屁不通文章、申论，获取知乎、微博热搜，等等
+生活休闲：数十种趣味/实用小功能，例如趣味图片制作，高德地图api，搜索MCwiki和MC模组，自动生成狗屁不通文章、申论，获取知乎、微博热搜，等等；
 
 q群管理：可选开启复读禁言，可以帮助管理员禁言。
 
 在qq群内输入"/help"即可查看所有功能
 
 # 常见问题
+
+## 1.cariosvg报错
+
 若您在首次部署本bot时出现cariosvg报错：
 ```
 OSError: no library called "cairo" was found
@@ -69,6 +72,10 @@ cannot load library 'libcairo-2.dll': error 0x7e
 https://github.com/tschoonj/GTK-for-Windows-Runtime-Environment-Installer/releases/download/2021-01-30/gtk2-runtime-2.24.33-2021-01-30-ts-win64.exe
 
 下载，或者假如您不使用相关功能的话，注释掉mychess.py下cariosvg相关代码即可
+
+## 2.Real-ESRGAN报错
+
+本项目用到了[Real-ESRGAN](https://github.com/xinntao/Real-ESRGAN)来进行图像超分，您需要根据该项目的要求下载对应代码，并下载模型到statics文件夹下，或者您可以将super_resolution.py移除或改名为__super_resolution.py以禁用本功能
 
 # 代码说明
 项目基于yirimirai，并进一步做了一些封装
