@@ -7,7 +7,7 @@ import time
 import asyncio
 import aiohttp
 from mirai import Image, MessageEvent
-from utils.utils import Listen, send
+from utils.utils import Listen, send, Config
 
 plugin = Listen(
     'AI_draw',
@@ -37,7 +37,8 @@ async def AI_draw_ernievilg(event: MessageEvent):
 
         await send(event, "请稍等..", True)
 
-        engine = ErnieVilG()
+        engine = ErnieVilG(
+            Config.get()['ernievilg_ak'], Config.get()['ernievilg_sk'])
         try:
             # 6 image urls in the list
             urls = await engine.generate_image(text_prompt=texts, style=style)
@@ -52,13 +53,13 @@ async def AI_draw_ernievilg(event: MessageEvent):
 
 
 class ErnieVilG:
-    def __init__(self, ak=None, sk=None):
+    def __init__(self, ak, sk):
         """
         :param ak: ak for applying token to request wenxin api.
         :param sk: sk for applying token to request wenxin api.
         """
-        self.ak = ak or 'G26BfAOLpGIRBN5XrOV2eyPA25CE01lE'
-        self.sk = sk or 'txLZOWIjEqXYMU3lSm05ViW4p9DWGOWs'
+        self.ak = ak
+        self.sk = sk
         self.token_host = 'https://wenxin.baidu.com/younger/portal/api/oauth/token'
         self.available_styles = ['古风', '油画', '水彩', '卡通', '二次元', '浮世绘', '蒸汽波艺术', 'low poly',
                                  '像素风格', '概念艺术', '未来主义', '赛博朋克', '写实风格', '洛丽塔风格',

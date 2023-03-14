@@ -13,6 +13,9 @@ bot_owner_qq:
 gaode_key: 
 #wolfram_alpha的APPID
 wa_appid: 
+#百度文心ai画画的ak和sk
+ernievilg_ak:
+ernievilg_sk:
 #katago和katagomo的启动命令
 katago_command: 
 katagomo_command:
