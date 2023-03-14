@@ -7,7 +7,7 @@ from io import BytesIO
 import aiohttp
 import imageio
 import numpy as np
-from PIL import Image as IMG, ImageSequence
+from PIL import Image as IMG, ImageSequence, UnidentifiedImageError
 from realesrgan import RealESRGANer
 from basicsr.archs.rrdbnet_arch import RRDBNet
 from mirai import Plain, Image, MessageEvent
@@ -62,13 +62,15 @@ async def super_resolution(event: MessageEvent):
             img = await do_super_resolution(img_content)
         except ValueError as e:
             await send(event, str(e))
-            handling = False
             return
-
+        except UnidentifiedImageError:
+            await send(event, "加载此图片出现错误，试试换一张图片吧")
+            return
+        finally:
+            handling = False
         end = time.time()
         use_time = round(end - start, 2)
         await send(event, [f"超分完成！处理用时：{use_time}s"], img_bytes=img)
-        handling = False
 
 
 async def do_super_resolution(
