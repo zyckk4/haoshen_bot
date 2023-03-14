@@ -37,7 +37,7 @@ class JewishChess(ChessWithImg):
             return self.outcome
 
     def parse_input(self, input_str):
-        """分析输入，返回长度为2或4的list表示下棋位置 """
+        """分析输入，返回长度为2或4的list表示下棋位置"""
         k = input_str.replace('(', '').replace(')', '').replace(
             '，', ',').replace('.', ',')
         k = k.split(',')

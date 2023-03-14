@@ -28,7 +28,7 @@ async def poison_chicken_soup(event: MessageEvent):
         async with aiohttp.ClientSession(timeout=timeout) as session:
             async with session.get(url=url, headers=headers) as resp:
                 info = await resp.json()
-    except:
+    except Exception:
         await send(event, "连接失败！", True)
         return
     await send(event, info['data']['text'])

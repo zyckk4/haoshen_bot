@@ -18,7 +18,7 @@ class KataAnalyse:
     def __init__(self, command):
         self.proc = Popen(args=command, encoding='utf-8',
                           stdin=PIPE, stdout=PIPE, stderr=PIPE)
-        #self.proc.stdin.write('rectangular_boardsize 7 6\n')
+        # self.proc.stdin.write('rectangular_boardsize 7 6\n')
         # self.proc.stdin.flush()
         # for i in range(2):
         #   self.proc.stdout.readline()

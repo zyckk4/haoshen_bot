@@ -28,7 +28,7 @@ async def abbr_search(event: MessageEvent):
                 async with session.post(url='https://lab.magiconch.com/api/nbnhhsh/guess',
                                         json=data, headers=headers) as resp:
                     word = (await resp.json())[0]['trans']
-        except:
+        except Exception:
             await send(event, ["请求失败了", Face(face_id=226)], True)
             return
         await send(event, f"'{x}'查询到以下意思："+str(word).replace("'", ""))

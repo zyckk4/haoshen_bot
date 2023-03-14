@@ -15,7 +15,7 @@ def get_url(x, is_svg=True):
     try:
         x = quote(x)
         return f'https://i.upmath.me/svg/{x}' if is_svg else f'https://i.upmath.me/png/{x}'
-    except:
+    except Exception:
         return -1
 
 

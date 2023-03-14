@@ -35,7 +35,7 @@ class Wordle:
             (total_guess_chance-1)*self.gap_h+self.up_empty+self.down_empty
         self.font = ImageFont.truetype("statics/fonts/timesbd.ttf", 36)
         self.draw_init_board()
-        #print(f'wordle new game start:{self.word0}')
+        # print(f'wordle new game start:{self.word0}')
 
     def play(self, input_str):
         if self.guess_num >= self.total_guess_chance:

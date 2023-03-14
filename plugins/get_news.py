@@ -20,7 +20,7 @@ async def get_news(event: MessageEvent):
             async with aiohttp.ClientSession(timeout=timeout) as session:
                 async with session.get(url="http://api.2xb.cn/zaob") as resp:
                     info = await resp.json()
-        except:
+        except Exception:
             await send(event, "获取日报失败！", True)
             return
         img_url = info['imageUrl']

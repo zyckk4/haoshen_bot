@@ -19,7 +19,7 @@ async def mod_search(event: MessageEvent):
         x = str(event.message_chain).replace('/mcmod', '', 1).strip()
         try:
             mod_name, mod_url = await search(x)
-        except:
+        except Exception:
             await send(event, "连接超时")
             return
         num = len(mod_name)

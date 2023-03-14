@@ -8,7 +8,7 @@ from random import randint
 from mirai import At, Plain, Image
 from utils.utils import send, my_filter, Config
 from . import game_basic as gb
-#import game_chess
+# import game_chess
 from .mychess import PlayChess
 from .weiqi import Go, KataGo
 from .gomoku_v3 import Gomoku, AntiTTT, AntiTTT_with_AI, Katagomo

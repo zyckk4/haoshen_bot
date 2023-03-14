@@ -26,7 +26,7 @@ async def get_poem(event: MessageEvent):
                 num = 7
             try:
                 output = await req_poem(i, num, x)
-            except:
+            except Exception:
                 await send(event, ["连接失败了", Face(face_id=8)], True)
                 return
             if output == -1:
@@ -82,7 +82,7 @@ async def req_poem(tp, num: int, theme: str):
                     continue
                 else:
                     return -1
-            except:
+            except Exception:
                 return -1
         else:
             return info

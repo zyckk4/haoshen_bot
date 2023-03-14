@@ -25,7 +25,7 @@ async def get_couplet(event: GroupMessage):
             async with aiohttp.ClientSession(connector=aiohttp.TCPConnector(ssl=False), timeout=timeout) as session:
                 async with session.get(url='https://seq2seq-couplet-model.rssbrain.com/v0.2/couplet/'+x, headers=headers) as resp:
                     info = await resp.json()
-        except:
+        except Exception:
             await send(event, "请求失败了！", True)
             return
         output = info['output']

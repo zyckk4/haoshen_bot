@@ -228,4 +228,3 @@ if __name__ == '__main__':
                 break
     else:
         print('输入错误！')
-my_katagomo_command = r'C:\Users\123\Documents\ZYC\katago\五子棋+重力棋+黑白棋katago\katago\engine\freestyle.exe gtp -model C:\Users\123\Documents\ZYC\katago\五子棋+重力棋+黑白棋katago\weights\freestyle.bin.gz -config C:\Users\123\Documents\ZYC\katago\五子棋+重力棋+黑白棋katago\katago\default.cfg'

@@ -96,7 +96,7 @@ async def netcomp(language: str, stdin: str, code: str):
         async with aiohttp.ClientSession(timeout=timeout) as session:
             async with session.post(url=url, data=payload, headers=headers) as resp:
                 res = await resp.json()
-    except:
+    except Exception:
         return -2
     if len(res['output']) > 1000000 or len(res['output']) > 1000000:
         return -1

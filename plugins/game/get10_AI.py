@@ -144,7 +144,7 @@ class AIGet10(Get10):
     def quick_AI_game(self):
         while True:
             x, y = self.algorithm()
-            #x, y = self.algorithm_filled_depth2()
+            # x, y = self.algorithm_filled_depth2()
             # print(x,y)
             if not self.is_legal(x, y):
                 raise ValueError("错误！！")
@@ -161,7 +161,7 @@ class AIGet10(Get10):
         frame.append(self.get_img_PIL())
         while True:
             x, y = self.algorithm()
-            #x, y = self.algorithm_filled_depth2()
+            # x, y = self.algorithm_filled_depth2()
             # print(x,y)
             self.score += self.combine(x, y)
             frame.append(self.get_img_PIL())
@@ -191,7 +191,7 @@ if __name__ == '__main__':
     max_score = 0
     num = 100
     import time
-    import random
+    # import random
     start_time = time.time()
     for i in range(num):
        # r=random.randint(5,8)

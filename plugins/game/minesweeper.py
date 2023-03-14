@@ -51,13 +51,13 @@ class MineSweeper:
         return f"[MineSweeper] {self.mines} in {self.row}*{self.column}"
 
     def draw_panel(self) -> Image.Image:
-        #start = time()
+        # start = time()
         img = Image.new(
             "RGB", (80 * self.column, 80 * self.row), (255, 255, 255))
         self.__draw_split_line(img)
         self.__draw_cell_cover(img)
         self.__draw_cell(img)
-        #print(f"draw spend {time()-start}ms at {str(self)}")
+        # print(f"draw spend {time()-start}ms at {str(self)}")
         return img
 
     def __draw_split_line(self, img: Image.Image):
@@ -123,7 +123,7 @@ class MineSweeper:
     def mine(self, row: int, column: int):
         if not self.__is_valid_location(row, column):
             raise ValueError("非法操作")
-        #start = time()
+        # start = time()
         cell = self.panel[row][column]
         if cell.is_mined:
             raise ValueError("你已经挖过这里了")
@@ -139,11 +139,11 @@ class MineSweeper:
         self.__reset_check()
         self.__spread_not_mine(row, column)
         self.__win_check()
-        #print(f"mine spend {time()-start}ms at {str(self)}")
+        # print(f"mine spend {time()-start}ms at {str(self)}")
 
     def tag(self, row: int, column: int):
         cell = self.panel[row][column]
-        #start = time()
+        # start = time()
         if cell.is_mined:
             raise ValueError("你不能标记一个你挖开的地方")
         if self.state != GameState.GAMING and self.state != GameState.PREPARE:
@@ -153,7 +153,7 @@ class MineSweeper:
             cell.is_marked = False
         else:
             cell.is_marked = True
-        #print(f"tag spend {time()-start}ms at {str(self)}")
+        # print(f"tag spend {time()-start}ms at {str(self)}")
 
     def __gen_mine(self):
         count = 0

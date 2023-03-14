@@ -18,13 +18,13 @@ async def get_trendings(event: MessageEvent):
     if str(event.message_chain) == '/知乎热榜':
         try:
             mesg = await Trending.get_zhihu_trending()
-        except:
+        except Exception:
             mesg = "请求超时！"
         await send(event, mesg)
     elif str(event.message_chain) == '/微博热榜':
         try:
             mesg = await Trending.get_weibo_trending()
-        except:
+        except Exception:
             mesg = "请求超时！"
         await send(event, mesg)
 # =============================================================================

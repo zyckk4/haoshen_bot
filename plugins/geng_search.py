@@ -29,7 +29,7 @@ async def geng_search(event: MessageEvent):
             async with aiohttp.ClientSession(timeout=timeout) as session:
                 async with session.post(url='https://api.jikipedia.com/go/search_definitions', json=data, headers=headers) as resp:
                     info = await resp.json()
-        except:
+        except Exception:
             await send(event, "连接失败！", True)
             return
         if 'category' in info and info['category'] == "ban_enabled":

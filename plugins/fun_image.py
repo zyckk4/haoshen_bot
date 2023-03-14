@@ -139,7 +139,7 @@ def crazy_fan_pic(input_str,path='statics/fun_img/crazy_fan.jpg',
     if total_font_size[0]>200:
         raise ValueError("请适当缩减字符串长度！")
     draw=ImageDraw.Draw(img)
-    #text_b(((w-total_font_size[0])//2,98-total_font_size[1]//2),draw,input_str,font,(255,0,0),fill_color)
+    # text_b(((w-total_font_size[0])//2,98-total_font_size[1]//2),draw,input_str,font,(255,0,0),fill_color)
     draw.text(((w-total_font_size[0])//2,98-total_font_size[1]//2),input_str,font=font,fill=font_color)
     return img
 

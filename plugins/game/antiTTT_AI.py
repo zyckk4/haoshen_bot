@@ -157,5 +157,5 @@ class AntiTTT_AI:
                             choicei, choicej = i, j
 
                         # Conclusion: seek to maximize my s (score)
-        #print(f"AI Choice={choicei+1},{choicej+1},Score={s},Size={len(self.m)}")
+        # print(f"AI Choice={choicei+1},{choicej+1},Score={s},Size={len(self.m)}")
         return choicei, choicej

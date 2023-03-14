@@ -16,7 +16,7 @@ async def github_zen(event):
     if str(event.message_chain) == '/zen':
         try:
             zen = await get_zen()
-        except:
+        except Exception:
             await send(event, "获取zen失败！")
             return
         await send(event, zen)
