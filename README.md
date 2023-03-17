@@ -77,6 +77,10 @@ https://github.com/tschoonj/GTK-for-Windows-Runtime-Environment-Installer/releas
 
 本项目用到了[Real-ESRGAN](https://github.com/xinntao/Real-ESRGAN)来进行图像超分，您需要根据该项目的要求下载对应代码，并下载模型到statics文件夹下，或者您可以将super_resolution.py移除或改名为__super_resolution.py以禁用本功能
 
+## 3.selenium报错
+
+要使用selenium相关功能，需安装好Chrome浏览器和对应版本的chrome driver，可以参考网上教程
+
 # 代码说明
 项目基于yirimirai，并进一步做了一些封装
 
