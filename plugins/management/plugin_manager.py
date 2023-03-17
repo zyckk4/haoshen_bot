@@ -31,7 +31,7 @@ async def get_plugin_info(event: MessageEvent):
     elif str(event.message_chain).startswith('/查功能'):
         x = str(event.message_chain).replace('/查功能', '').strip()
         if x.isdigit() and 0 <= int(x) < len(PLUGINS):
-            plugin = STATIC_PLUGINS[int(x)]
+            plugin = PLUGINS[int(x)]
             await send(event, plugin.name+'插件: '+plugin.description, True)
         else:
             await send(event, "指令错误", True)
