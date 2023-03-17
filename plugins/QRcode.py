@@ -7,8 +7,8 @@ from mirai import Plain, Image, MessageEvent
 from utils.utils import Listen, send
 
 plugin = Listen(
-    'poison_chicken_soup',
-    '获取毒鸡汤,输入"/毒鸡汤"以获取'
+    'QRcode',
+    '自定义二维码生成,输入"/二维码+文字"以生成'
 )
 
 

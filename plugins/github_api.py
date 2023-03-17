@@ -6,7 +6,7 @@ import aiohttp
 from utils.utils import Listen, send
 
 plugin = Listen(
-    'get_news',
+    'github_api',
     'github API,输入"/zen"以获取github禅语'
 )
 

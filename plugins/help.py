@@ -49,7 +49,7 @@ https://github.com/zyckk4/haoshen_bot
 
 plugin = Listen(
     'help',
-    r'帮助'
+    '帮助'
 )
 
 

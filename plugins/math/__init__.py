@@ -31,7 +31,7 @@ async def get_latex_pic(event: MessageEvent):
             except e.TimeoutError:
                 await send(event, ["连接超时", Face(face_id=18)], True)
                 return
-            except:
+            except Exception:
                 await send(event, ["错误！", Face(face_id=18)], True)
                 return
             await send(event, [], PIL_image=img)
@@ -54,4 +54,3 @@ async def get_wa(event: MessageEvent):
                         await send(event, await resp.text())
         except e.TimeoutError:
             await send(event, ["连接超时", Face(face_id=18)], True)
-            return

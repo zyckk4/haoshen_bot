@@ -34,12 +34,10 @@ async def get_latex(input_str, k, is_svg=True):
     compile2 = re.compile(r'\d+')
     pic_size = compile1.findall(svg)[0]
     num_result = compile2.findall(pic_size)
-    # print(num_result)
     svg = re.sub(f'width="{num_result[0]}"',
                  f'width="{str(k*int(num_result[0]))}"', svg, 1)
     svg = re.sub(
         f'height="{num_result[1]}"', f'height="{str(k*int(num_result[1]))}"', svg, 1)
-    # print(svg)
     bt = svg2png(bytestring=svg)
     a = np.array(Image.open(BytesIO(bt)))
     zeros = np.where(a[:, :, -1] == 0)

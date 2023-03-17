@@ -32,4 +32,3 @@ async def abbr_search(event: MessageEvent):
             await send(event, ["请求失败了", Face(face_id=226)], True)
             return
         await send(event, f"'{x}'查询到以下意思："+str(word).replace("'", ""))
-        return

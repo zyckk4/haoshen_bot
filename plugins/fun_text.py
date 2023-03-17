@@ -7,7 +7,7 @@ from mirai import MessageEvent
 from utils.utils import Listen, send
 
 plugin = Listen(
-    'poison_chicken_soup',
+    'fun_text',
     '趣味文本,输入"/毒鸡汤|彩虹屁"以获取'
 )
 
