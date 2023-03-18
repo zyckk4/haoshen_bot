@@ -42,7 +42,7 @@ async def on_nudge_message(event: NudgeEvent):
 @plugin.all_mesg()
 async def play_dice(event: MessageEvent):
     '''丢骰子'''
-    if "丢色子" == str(event.message_chain) or "丢骰子" == str(event.message_chain):
+    if "丢色子" == str(event.message_chain).strip() or "丢骰子" == str(event.message_chain).strip():
         ran = random.randint(1, 6)
         await send(event, Dice(ran))
     if str(event.message_chain).startswith('丢'):
