@@ -17,7 +17,7 @@ async def net_compile(event: GroupMessage):
     kw = ['/R', '/vb', '/ts', '/kt', '/pas', '/lua', '/node.js', '/go', '/swift', '/rs', '/sh',
           '/pl', '/erl', '/scala', '/cs', '/rb', '/cpp', '/c', '/java', '/py3', '/py', '/php']
     if str(event.message_chain) == '/在线编程帮助':
-        mesg = '指令为"/cpp 代码内容",、cpp可换成以下编程语言'+','.join(kw)
+        mesg = '指令为"/cpp 代码内容",cpp可换成以下编程语言'+','.join(kw)
         await send(event, mesg, True)
         return
     for k in kw:
@@ -35,7 +35,9 @@ async def net_compile(event: GroupMessage):
                         code = code.replace(code[:num+1], '', 1)
                         return code, stdin
                     return code, ''
+
             mesg = await my_filter(waiter, "G", 120)
+
             if mesg is None:
                 await send(event, "超时！", True)
                 return
@@ -46,7 +48,6 @@ async def net_compile(event: GroupMessage):
             elif result == -2:
                 await send(event, [At(event.sender.id), "连接失败！"])
             else:
-                # print(result)
                 mesg = result['output'] if result["output"] else result["errors"]
                 await send(event, mesg)
             return
@@ -98,6 +99,6 @@ async def netcomp(language: str, stdin: str, code: str):
                 res = await resp.json()
     except Exception:
         return -2
-    if len(res['output']) > 1000000 or len(res['output']) > 1000000:
+    if len(res['output']) >= 15000 or len(res['errors']) >= 15000:
         return -1
     return res

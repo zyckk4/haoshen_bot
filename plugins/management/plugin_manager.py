@@ -12,6 +12,7 @@ plugin = Listen(
     True
 )
 
+
 @plugin.all_mesg()
 async def get_plugin_list(event: MessageEvent):
     if str(event.message_chain) == '/功能列表':
@@ -22,6 +23,7 @@ async def get_plugin_list(event: MessageEvent):
         mesg = ["功能列表:"] + [f"\n{i}.{STATIC_PLUGINS[i].name}: {STATIC_PLUGINS[i].flag}"
                             for i in range(len(STATIC_PLUGINS))]
         await send(event, mesg)
+
 
 @plugin.all_mesg()
 async def get_plugin_info(event: MessageEvent):
