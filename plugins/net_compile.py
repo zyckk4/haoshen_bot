@@ -11,7 +11,7 @@ plugin = Listen(
     '在线编程,输入"/在线编程帮助"查看帮助'
 )
 
-# TODO: 坏了要修
+
 @plugin.group()
 async def net_compile(event: GroupMessage):
     kw = ['/R', '/vb', '/ts', '/kt', '/pas', '/lua', '/node.js', '/go', '/swift', '/rs', '/sh',
@@ -83,7 +83,7 @@ async def netcomp(language: str, stdin: str, code: str):
     url = "https://tool.runoob.com/compile2.php"
     payload = {
         "code": code,
-        "token": "4381fe197827ec87cbac9552f14ec62a",
+        "token": "b6365362a90ac2ac7098ba52c13e352b",
         "stdin": stdin,
         "language": legal_language[language],
         "fileext": language
