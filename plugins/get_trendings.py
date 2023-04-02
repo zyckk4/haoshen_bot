@@ -28,12 +28,12 @@ async def get_trendings(event: MessageEvent):
             mesg = "请求超时！"
         await send(event, mesg)
 # =============================================================================
-#     elif str(event.message_chain)=='/github热榜':
+#     elif str(event.message_chain) == '/github热榜':
 #         try:
-#             mesg=await Trending.get_github_trending()
-#         except:
-#             mesg="请求超时！"
-#         await send(event,mesg)
+#             mesg = await Trending.get_github_trending()
+#         except Exception:
+#             mesg = "请求超时！"
+#         await send(event, mesg)
 # =============================================================================
 
 
@@ -87,7 +87,7 @@ class Trending:
 #                 html = await resp.read()
 #         soup = BeautifulSoup(html, "html.parser")
 #         articles = soup.find_all("article", {"class": "Box-row"})
-# 
+#
 #         text_list = ["github实时热榜:\n"]
 #         index = 0
 #         for i in articles:
@@ -99,7 +99,7 @@ class Trending:
 #                 text_list.append(f"\n    {i.find('p').get_text().strip()}\n")
 #             except:
 #                 pass
-# 
+#
 #         text = "".join(text_list).replace("#", "")
 #         return text
 # =============================================================================
