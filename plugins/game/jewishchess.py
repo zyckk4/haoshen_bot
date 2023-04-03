@@ -140,7 +140,7 @@ class JewishChess(ChessWithImg):
 
 
 if __name__ == '__main__':
-    path = 'tempgo.png'
+    path = 'game.png'
     players = [input("请输入玩家1昵称："), input("请输入玩家2昵称：")]
     chs = JewishChess(players=players, path=path)
     chs.image.show()
@@ -160,10 +160,9 @@ if __name__ == '__main__':
             chs.image.show()
             if mesg is not None:
                 print(f'{players[chs.outcome]} 获得胜利！')
-                chs.save_gif()
                 print("游戏结束！")
+                chs.save_gif()
                 print("棋谱gif已保存！")
-                break
                 break
         except Exception as e:
             print(e)

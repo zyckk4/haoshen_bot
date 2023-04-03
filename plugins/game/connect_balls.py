@@ -40,7 +40,7 @@ class ConnectBalls:
         board_temp[xy[0]][xy[1]] = 1
         path = []
         self._dfs(xy, board_temp, path)
-        # print(path,len(path))
+
         while True:
             nodes = list(random.choice(
                 list(itertools.combinations(range(1, len(path)-2), self.pair_num-1))))
@@ -251,10 +251,4 @@ class ConnectBalls:
                         _row = j//(self.cell_h+self.line_wid)
                         connect_state.append(((i-1, _row), (i, _row)))
 
-        print(list(set(connect_state)))
         return list(set(connect_state))
-
-
-if __name__ == '__main__':
-    game = ConnectBalls(4, 4, 4)
-    game.get_img_PIL().show()

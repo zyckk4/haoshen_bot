@@ -24,7 +24,8 @@ class Get10:
         self.board = [[random.randint(1, 3) for _ in range(
             self.row)] for __ in range(self.col)]
 
-        self.frame = []  # 储存最近一次操作的三张图片
+        # 储存最近一次操作的三张图片
+        self.frame = []  
 
     def play(self, input_str):
         k = input_str.replace('(', '').replace(')', '').replace(

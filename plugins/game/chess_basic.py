@@ -56,7 +56,7 @@ class ChessBasic():
                 self.board_num[k1[0]-1][k1[1]-1] = 0
             try:
                 self.turn = zuozi[2]
-            except:
+            except IndexError:
                 pass
 
 

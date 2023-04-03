@@ -24,7 +24,6 @@ plugin = Listen(
 def load_chrome():
     # 设置selenium使用chrome的无头模式
     chrome_options = Options()
-    # 无界面模式
     chrome_options.add_argument('--headless')
 
     if sys.platform in ['linux', 'linux2']:

@@ -14,7 +14,7 @@ from utils.utils import Listen, send
 
 plugin = Listen(
     'setugif_maker',
-    '"色图"生成,输入“来张色图”试试'
+    '"色图"生成,输入"来张色图"试试'
 )
 
 

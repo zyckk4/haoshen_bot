@@ -129,8 +129,6 @@ def check_in(qq_id, server_name):
     now = datetime.datetime.now()
     now_date = str(now.year)+'.'+str(now.month)+'.'+str(now.day)
     if now_date != last_sign_in_date:
-        # print(now_date)
-        # print(last_sign_in_date)
         df['LastSignInDate'][i-1] = now_date
         df['exp'][i-1] += 20
         df['money'][i-1] += 10

@@ -45,7 +45,6 @@ async def get_poem(event: MessageEvent):
 
 async def req_poem(tp, num: int, theme: str):
     """tp=0为绝句，tp=1为藏头诗，tp=2为宋词，num表示五或七言"""
-    # 'cipai':
     if tp == 2:
         data = {
             'cipai': num,

@@ -113,7 +113,6 @@ class AntiTTT_with_AI(AntiTTT, AntiTTT_AI):
         x, y = self.AImove()
         self._push(x, y)
         self._save_frame()
-        # print(self.board)
         self.check_end(x, y)
         if self.outcome == -1:
             self.turn ^= 1

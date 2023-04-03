@@ -103,7 +103,6 @@ class KataAnalyse:
 
 
 if __name__ == '__main__':
-    # reversi_analyse(10000)
     kata = KataAnalyse()
     print(kata.analyse(100))
     kata.kata_play('16,16,1')

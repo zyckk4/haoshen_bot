@@ -18,7 +18,6 @@ from .get10_AI import AIGet10
 from .get_10 import Get10
 from .gomoku_v3 import AntiTTT, AntiTTT_with_AI, Gomoku, Katagomo
 from .jewishchess import JewishChess
-# import game_chess
 from .mychess import PlayChess
 from .nonogram import Nonogram
 from .renju_eliminate import RenjuEliminate
@@ -1256,8 +1255,7 @@ async def play_wordle(event, server_name):
         wod = Wordle()
     await send(event, [], PIL_image=wod.img)
     await send(event, "wordle游戏开始！")
-    # winner={}
-    # fail_id=-1
+
     while True:
 
         def waiter(event2):
@@ -1277,7 +1275,7 @@ async def play_wordle(event, server_name):
             await send(event, "管理员强制关闭多人wordle！")
             break
         input_str = mesg[0]
-        #qq_id = mesg[1]
+
         try:
             mesg = wod.play(input_str)
         except ValueError as e:
@@ -1292,12 +1290,7 @@ async def play_wordle(event, server_name):
         elif mesg == 0:
             await send(event, f"很遗憾，猜词次数用光了！\n正确答案是：{wod.word0}")
             break
-        '''
-        if qq_id in winner:
-            winner[qq_id]+=1
-        else:
-            winner[qq_id]=1
-        '''
+
     flag_of_wod[event.sender.group.id] = False
 
 
@@ -1321,7 +1314,7 @@ async def play_minesweeper(event, server_name):
         mine = ms.MineSweeper(10, 10, 15)
     await send(event, [], PIL_image=mine.draw_panel())
     winner = {}
-    # fail_id=-1
+
     ms_admin = Config.get()['game_admin']
     while True:
         def waiter(event2):
@@ -1352,7 +1345,7 @@ async def play_minesweeper(event, server_name):
         await send(event, [], PIL_image=mine.draw_panel())
         if mine.state == ms.GameState.FAIL:
             await send(event, [At(qq_id), "挖到雷了！扫雷失败"])
-            # fail_id=qq_id
+
             if qq_id in winner:
                 winner[qq_id] -= 10
             else:
@@ -1526,8 +1519,7 @@ async def play_nonogram(event, server_name):
     nono_admin = Config.get()['game_admin']
     nono = Nonogram()
     await send(event, [], PIL_image=nono.board_img())
-    # winner={}
-    # fail_id=-1
+
     while True:
         def waiter(event2):
             if event2.sender.group.id == event.sender.group.id:
@@ -1545,7 +1537,7 @@ async def play_nonogram(event, server_name):
         elif mesg == -1:
             await send(event, "管理员强制关闭数织！")
             break
-        input_str = mesg[0]  # qq_id=mesg[1]
+        input_str = mesg[0]
         try:
             mesg = nono.play(input_str)
         except Exception as e:
@@ -1555,34 +1547,8 @@ async def play_nonogram(event, server_name):
         if mesg != -1:
             await send(event, f"游戏结束！共执行{mesg}次操作")
             break
-        '''
-        if qq_id in winner:
-            winner[qq_id]+=1
-        else:
-            winner[qq_id]=1
-        '''
 
     flag_of_nn[server_name] = False
-    '''
-    end_mesg_chain=['游戏结束！本轮数织得分如下：']
-    for k in sorted(winner,key=winner.__getitem__,reverse=True):
-        end_mesg_chain.append(f'\n{winner[k]} ')
-        end_mesg_chain.append(At(k))
-    await bot.send(event,end_mesg_chain)
-    mesg_chain_fail=[]
-    for k in winner:
-        pf=get_player_file(k, server_name)
-        if pf is None:
-            mesg_chain_fail.append(At(k))
-        else:
-            adddata={'exp':5*winner[k],'money':3*winner[k]}
-            add_data(adddata,k,server_name)
-    if mesg_chain_fail==[]:
-        await bot.send(event,"以上每积分已转换成5经验,3金币发放!")
-    else:
-        mesg_chain_fail.append(' 由于未注册无法发放金币经验,其他玩家每积分已转换成5经验,3金币发放!')
-        await bot.send(event,mesg_chain_fail)
-    '''
 
 
 async def game_admin(event, server_name):

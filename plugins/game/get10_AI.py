@@ -188,28 +188,21 @@ class AIGet10(Get10):
 
 
 if __name__ == '__main__':
-    # 修改第一行的导入以使用
     total_score = 0
     max_score = 0
     num = 100
     import time
-
-    # import random
     start_time = time.time()
     for i in range(num):
-       # r=random.randint(5,8)
-       # c=random.randint(5,10)
         r, c = 5, 5
         ai = AIGet10(c, r)
         score = ai.quick_AI_game()
         print(f'第{i+1}局{r}行{c}列{score}分')
-        # score/=r*c
         if score > max_score:
             max_score = score
         total_score += score
         del ai
     print(f'本轮{num}局',
-          # f'加权总分为{total_score}',
           f'平均分为{total_score/num}',
           f'最高分为{max_score}',
           f'总用时{time.time()-start_time}',

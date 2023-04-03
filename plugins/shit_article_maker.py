@@ -186,8 +186,7 @@ class Slscq:
 
 if __name__ == "__main__":
     if 1:
-        a = BullshitArticle(
-            'C:/Users/123/Documents/ZYC/mirai program/haoshenhaoshen/statics/bullshit_article_data.json')
+        a = BullshitArticle('statics/bullshit_article_data.json')
         article = a.make_bullshit_article('快乐')
         print(article)
     else:
