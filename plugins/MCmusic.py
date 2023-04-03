@@ -2,7 +2,9 @@
 """
 @author: zyckk4  https://github.com/zyckk4
 """
-from mirai import Voice, MessageEvent
+
+from mirai import MessageEvent, Voice
+
 from utils.utils import Listen, send
 
 plugin = Listen(

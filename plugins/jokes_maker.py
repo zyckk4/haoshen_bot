@@ -2,10 +2,13 @@
 """
 @author: zyckk4  https://github.com/zyckk4
 """
+
 import random
+
 from mirai import MessageEvent
+
+from statics.jokes import america_jokes, french_jokes, jokes, soviet_jokes
 from utils.utils import Listen, send
-from statics.jokes import french_jokes, america_jokes, soviet_jokes, jokes
 
 plugin = Listen(
     'jokes_maker',

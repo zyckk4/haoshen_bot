@@ -2,8 +2,10 @@
 """
 @author: zyckk4  https://github.com/zyckk4
 """
+
 import random
 from io import BytesIO
+
 from PIL import Image, ImageDraw, ImageFont
 
 

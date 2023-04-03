@@ -3,11 +3,14 @@
 @author: ForeverHaibara  https://github.com/ForeverHaibara
 Credits to https://github.com/PaddlePaddle/PaddleHub
 """
-import time
+
 import asyncio
+import time
+
 import aiohttp
 from mirai import Image, MessageEvent
-from utils.utils import Listen, send, Config
+
+from utils.utils import Config, Listen, send
 
 plugin = Listen(
     'AI_draw',

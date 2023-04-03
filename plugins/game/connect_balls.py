@@ -2,9 +2,11 @@
 """
 @author: zyckk4  https://github.com/zyckk4
 """
-import random
+
 import itertools
+import random
 from io import BytesIO
+
 import numpy as np
 from PIL import Image, ImageDraw, ImageFont
 

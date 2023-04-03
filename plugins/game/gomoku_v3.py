@@ -2,9 +2,10 @@
 """
 @author: zyckk4  https://github.com/zyckk4
 """
+
+from .antiTTT_AI import AntiTTT_AI
 from .chess_basic import ChessWithImg
 from .katago import KataAnalyse
-from .antiTTT_AI import AntiTTT_AI
 
 
 class Gomoku(ChessWithImg):

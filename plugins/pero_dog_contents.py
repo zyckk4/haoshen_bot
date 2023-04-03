@@ -2,10 +2,13 @@
 """
 @author: zyckk4  https://github.com/zyckk4
 """
+
 import random
+
 from mirai import MessageEvent
-from utils.utils import Listen, send
+
 from statics.pero_dog_contents import pero_dog_contents
+from utils.utils import Listen, send
 
 plugin = Listen(
     'pero_dog_contents',

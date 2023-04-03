@@ -3,8 +3,9 @@
 @author: zyckk4  https://github.com/zyckk4
 """
 from mirai import GroupMessage
+
 from utils.utils import Listen
-from .game import play_game, chess_main, game_admin
+from .game import chess_main, game_admin, play_game
 
 plugin = Listen(
     'game',

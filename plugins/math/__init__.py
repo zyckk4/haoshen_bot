@@ -2,13 +2,15 @@
 """
 @author: zyckk4  https://github.com/zyckk4
 """
+
 from asyncio import exceptions as e
 from urllib.request import quote
+
 import aiohttp
 from mirai import Face, MessageEvent
-from .get_latex import get_latex
-from utils.utils import Listen, send, Config
 
+from utils.utils import Config, Listen, send
+from .get_latex import get_latex
 
 plugin = Listen(
     'math',

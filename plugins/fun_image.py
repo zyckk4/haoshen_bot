@@ -2,11 +2,15 @@
 """
 @author: zyckk4  https://github.com/zyckk4
 """
+
 from io import BytesIO
+
 import aiohttp
-from PIL import Image as IMG, ImageFont, ImageDraw
-from mirai import Plain, At, Image, MessageEvent
-from utils.utils import Listen, send, my_filter
+from mirai import At, Image, MessageEvent, Plain
+from PIL import Image as IMG
+from PIL import ImageDraw, ImageFont
+
+from utils.utils import Listen, my_filter, send
 
 plugin = Listen(
     'fun_image',

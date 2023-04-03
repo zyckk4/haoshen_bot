@@ -2,10 +2,14 @@
 """
 @author: zyckk4  https://github.com/zyckk4
 """
+
 import random
 from io import BytesIO
-from PIL import Image as IMG, ImageDraw, ImageFont
+
 from mirai import MessageEvent
+from PIL import Image as IMG
+from PIL import ImageDraw, ImageFont
+
 from utils.utils import Listen, send
 
 plugin = Listen(

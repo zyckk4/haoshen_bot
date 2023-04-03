@@ -2,7 +2,8 @@
 """
 @author: zyckk4  https://github.com/zyckk4
 """
-from PIL import Image, ImageFont, ImageDraw
+
+from PIL import Image, ImageDraw, ImageFont
 
 
 def text_to_img(text: str, font_path="statics/fonts/msyh.ttc", font_size=36):

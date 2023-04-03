@@ -2,9 +2,11 @@
 """
 @author: zyckk4  https://github.com/zyckk4
 """
+
 import re
 from io import BytesIO
 from urllib.request import quote
+
 import aiohttp
 import numpy as np
 from cairosvg import svg2png

@@ -2,15 +2,18 @@
 """
 @author: zyckk4  https://github.com/zyckk4
 """
-import sys
+
 import asyncio
 import random
+import sys
+
+from mirai import Face, Image, MessageEvent, Plain
 from selenium import webdriver
+from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
-from selenium.common.exceptions import NoSuchElementException
-from mirai import Image, Plain, Face, MessageEvent
-from utils.utils import Listen, send, my_filter
+
+from utils.utils import Listen, my_filter, send
 
 plugin = Listen(
     'selenium_search',

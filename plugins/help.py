@@ -2,10 +2,11 @@
 """
 @author: zyckk4  https://github.com/zyckk4
 """
-from mirai import GroupMessage
-from utils.utils import Listen, send
-from utils.text_engine import text_to_img
 
+from mirai import GroupMessage
+
+from utils.text_engine import text_to_img
+from utils.utils import Listen, send
 
 help_mesg = '''豪神豪神功能列表
 

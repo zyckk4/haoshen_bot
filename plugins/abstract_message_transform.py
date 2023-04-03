@@ -2,9 +2,11 @@
 """
 @author: zyckk4  https://github.com/zyckk4
 """
+
 from mirai import MessageEvent
+
+from statics.abstract_message_transformer_data import emoji, pinyin
 from utils.utils import Listen, send
-from statics.abstract_message_transformer_data import pinyin, emoji
 
 plugin = Listen(
     'abstract_message_transform',

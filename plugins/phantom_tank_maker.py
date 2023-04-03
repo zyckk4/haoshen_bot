@@ -2,11 +2,15 @@
 """
 @author: zyckk4  https://github.com/zyckk4
 """
+
 from io import BytesIO
-import numpy as np
+
 import aiohttp
-from PIL import Image as IMG, ImageEnhance
+import numpy as np
 from mirai import Image, MessageEvent
+from PIL import Image as IMG
+from PIL import ImageEnhance
+
 from utils.utils import Listen, send
 
 plugin = Listen(

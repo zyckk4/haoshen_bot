@@ -2,11 +2,13 @@
 """
 @author: zyckk4 https://github.com/zyckk4
 """
+
 from io import BytesIO
+
 import chess
 import chess.svg
-from PIL import Image
 from cairosvg import svg2png
+from PIL import Image
 
 
 class PlayChess:

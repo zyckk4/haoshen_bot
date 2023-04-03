@@ -2,7 +2,9 @@
 """
 @author: zyckk4  https://github.com/zyckk4
 """
+
 import copy
+
 from .get_10 import Get10
 
 
@@ -191,6 +193,7 @@ if __name__ == '__main__':
     max_score = 0
     num = 100
     import time
+
     # import random
     start_time = time.time()
     for i in range(num):

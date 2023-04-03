@@ -2,8 +2,10 @@
 """
 @author: zyckk4  https://github.com/zyckk4
 """
+
 import qrcode
-from mirai import Plain, Image, MessageEvent
+from mirai import Image, MessageEvent, Plain
+
 from utils.utils import Listen, send
 
 plugin = Listen(

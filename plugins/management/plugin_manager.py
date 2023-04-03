@@ -2,9 +2,12 @@
 """
 @author: zyckk4  https://github.com/zyckk4
 """
+
 import random
+
 from mirai import MessageEvent
-from utils.utils import Listen, send, Config, PLUGINS, STATIC_PLUGINS
+
+from utils.utils import PLUGINS, STATIC_PLUGINS, Config, Listen, send
 
 plugin = Listen(
     'plugin_manager',

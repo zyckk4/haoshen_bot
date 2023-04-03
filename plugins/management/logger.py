@@ -2,7 +2,9 @@
 """
 @author: zyckk4  https://github.com/zyckk4
 """
-from mirai import GroupMessage, FriendMessage, Shutdown
+
+from mirai import FriendMessage, GroupMessage, Shutdown
+
 from utils.instance import core_instance
 from utils.utils import Listen
 

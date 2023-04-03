@@ -2,26 +2,29 @@
 """
 @author: zyckk4  https://github.com/zyckk4
 """
+
 import asyncio
 import re
 from random import randint
-from mirai import At, Plain, Image
-from utils.utils import send, my_filter, Config
+
+from mirai import At, Image, Plain
+
+from utils.utils import Config, my_filter, send
 from . import game_basic as gb
+from . import minesweeper as ms
+from .connect_balls import ConnectBalls
+from .connectX import ConnectX
+from .get10_AI import AIGet10
+from .get_10 import Get10
+from .gomoku_v3 import AntiTTT, AntiTTT_with_AI, Gomoku, Katagomo
+from .jewishchess import JewishChess
 # import game_chess
 from .mychess import PlayChess
-from .weiqi import Go, KataGo
-from .gomoku_v3 import Gomoku, AntiTTT, AntiTTT_with_AI, Katagomo
-from .reversi import Reversi
-from .connectX import ConnectX
-from .jewishchess import JewishChess
-from . import minesweeper as ms
 from .nonogram import Nonogram
-from .wordle import Wordle
 from .renju_eliminate import RenjuEliminate
-from .get_10 import Get10
-from .get10_AI import AIGet10
-from .connect_balls import ConnectBalls
+from .reversi import Reversi
+from .weiqi import Go, KataGo
+from .wordle import Wordle
 
 flag_of_ms = {}
 flag_of_nn = {}

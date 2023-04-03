@@ -2,8 +2,11 @@
 """
 @author: zyckk4  https://github.com/zyckk4
 """
+
 import random
+
 from mirai import Image, MessageEvent
+
 from utils.utils import Listen, send
 
 plugin = Listen(

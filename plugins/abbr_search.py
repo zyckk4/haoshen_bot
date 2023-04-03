@@ -2,10 +2,11 @@
 """
 @author: zyckk4  https://github.com/zyckk4
 """
+
 import aiohttp
 from mirai import Face, MessageEvent
-from utils.utils import Listen, send
 
+from utils.utils import Listen, send
 
 plugin = Listen(
     'abbr_search',

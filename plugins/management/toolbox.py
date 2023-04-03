@@ -2,11 +2,14 @@
 """
 @author: zyckk4  https://github.com/zyckk4
 """
-import random
+
 import asyncio
-from mirai import Image, At, AtAll, FriendMessage, GroupMessage
-from utils.utils import Listen, my_filter, send,\
-    mute, unmute, mute_all, unmute_all, is_admin, Config
+import random
+
+from mirai import At, AtAll, FriendMessage, GroupMessage, Image
+
+from utils.utils import (Config, Listen, is_admin, mute, mute_all, my_filter,
+                         send, unmute, unmute_all)
 
 plugin = Listen(
     'toolbox',

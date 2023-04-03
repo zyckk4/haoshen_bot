@@ -2,7 +2,8 @@
 """
 @author: zyckk4  https://github.com/zyckk4
 """
-from subprocess import Popen, PIPE
+
+from subprocess import PIPE, Popen
 
 
 def trans_alp(alp):

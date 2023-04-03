@@ -2,16 +2,20 @@
 """
 @author: zyckk4  https://github.com/zyckk4
 """
+
 import time
 from io import BytesIO
+
 import aiohttp
 import imageio
 import numpy as np
-from PIL import Image as IMG, ImageSequence, UnidentifiedImageError
-from realesrgan import RealESRGANer
 from basicsr.archs.rrdbnet_arch import RRDBNet
-from mirai import Plain, Image, MessageEvent
-from utils.utils import Listen, send, my_filter
+from mirai import Image, MessageEvent, Plain
+from PIL import Image as IMG
+from PIL import ImageSequence, UnidentifiedImageError
+from realesrgan import RealESRGANer
+
+from utils.utils import Listen, my_filter, send
 
 plugin = Listen(
     'super_resolution',

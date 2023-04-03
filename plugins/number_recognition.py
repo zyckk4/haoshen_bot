@@ -2,13 +2,16 @@
 """
 @author: zyckk4  https://github.com/zyckk4
 """
+
 from io import BytesIO
-import numpy as np
+
 import aiohttp
+import numpy as np
 import paddle
-from PIL import Image as IMG
 from mirai import Image, MessageEvent
-from utils.utils import Listen, send, my_filter
+from PIL import Image as IMG
+
+from utils.utils import Listen, my_filter, send
 
 plugin = Listen(
     'number_recognition',

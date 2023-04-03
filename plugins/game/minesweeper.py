@@ -1,8 +1,9 @@
 import random
-from time import time
 from enum import Enum
+from time import time
 from typing import Tuple
-from PIL import Image, ImageDraw, ImageColor, ImageFont
+
+from PIL import Image, ImageColor, ImageDraw, ImageFont
 
 COLUMN_NAME = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 

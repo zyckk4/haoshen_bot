@@ -2,8 +2,10 @@
 """
 @author: zyckk4 https://github.com/zyckk4
 """
+
 from random import randint
-from PIL import Image, ImageDraw, ImageFont, ImageColor
+
+from PIL import Image, ImageColor, ImageDraw, ImageFont
 
 
 class Nonogram:
