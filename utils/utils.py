@@ -136,11 +136,11 @@ async def send(
 async def send_nudge(target: int, subject: int, kind: Literal['Friend', 'Group', 'Stranger']):
     """发送头像戳一戳消息。
     
-     Args:
-         target (`int`): 戳一戳的目标 QQ 号，可以为 bot QQ 号。
-         subject (`int`): 戳一戳接受主体（上下文），戳一戳信息会发送至该主体，为群号或好友 QQ 号。
-         kind (`Literal['Friend','Group','Stranger']`): 上下文类型，可选值 `Friend`, `Group`, `Stranger`。
-     """
+    Args:
+        target (`int`): 戳一戳的目标 QQ 号，可以为 bot QQ 号。
+        subject (`int`): 戳一戳接受主体（上下文），戳一戳信息会发送至该主体，为群号或好友 QQ 号。
+        kind (`Literal['Friend','Group','Stranger']`): 上下文类型，可选值 `Friend`, `Group`, `Stranger`。
+    """
     bot: Mirai = core_instance.get().bot
     return await bot.send_nudge(target, subject, kind)
 
