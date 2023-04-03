@@ -2,6 +2,7 @@
 """
 @author: zyckk4  https://github.com/zyckk4
 """
+
 from mirai import GroupMessage
 
 from utils.utils import Listen

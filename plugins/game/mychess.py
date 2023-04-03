@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-@author: zyckk4 https://github.com/zyckk4
+@author: zyckk4  https://github.com/zyckk4
 """
 
 from io import BytesIO
