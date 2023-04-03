@@ -20,8 +20,8 @@ plugin = Listen(
 
 @plugin.all_mesg()
 async def AI_draw_ernievilg(event: MessageEvent):
-    """
-    指令: /AI画画 + 风格 + 内容
+    """指令: /AI画画 + 风格 + 内容
+
     如: /AI画画 卡通 二次元美少女, 古风, 唯美, 柔软
     """
     if str(event.message_chain).startswith('/AI画画') or str(event.message_chain).startswith('/AI绘画'):
@@ -94,8 +94,8 @@ class ErnieVilG:
                              text_prompt: str,
                              style: str = "油画",
                              resolution: str = None) -> list:
-        """
-        调用百度文心大模型接口进行AI作画.
+        """调用百度文心大模型接口进行AI作画.
+        
         :param text_promt: 作画内容
         :param style: 作画风格, 暂时只支持 self.available_styles 中的一种
         :param resolution: '1024*1024', '1536*1024' (横), '1024*1536' (竖), 默认为第一种

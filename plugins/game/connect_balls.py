@@ -121,16 +121,16 @@ class ConnectBalls:
 
     @staticmethod
     def max_board_num(board):
-        '''board中的最大数的值'''
+        """board中的最大数的值"""
         return max([max(column) for column in board])
 
     @staticmethod
     def min_board_num(board):
-        '''board中的最大数的值'''
+        """board中的最大数的值"""
         return min([min(column) for column in board])
 
     def generate_ini_chain(self):
-        '''初始时先生成一条‘墙壁’链'''
+        """初始时先生成一条‘墙壁’链"""
         ...
 
     def get_img_PIL(self, player=None):

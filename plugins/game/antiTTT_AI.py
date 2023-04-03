@@ -38,7 +38,7 @@ class AntiTTT_AI:
         return board_int
 
     def a_cnt(self, x, y, v):
-        # v:direction vector
+        # v: direction vector
         s = -1
         while x >= 0 and x < self.col and y >= 0 and y < self.row:
             if self.board[x][y] != self.turn:

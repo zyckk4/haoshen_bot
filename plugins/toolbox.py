@@ -21,14 +21,14 @@ plugin = Listen(
 
 @plugin.all_mesg()
 async def give_time(event: MessageEvent):
-    '''报时'''
+    """报时"""
     if str(event.message_chain) == '报时':
         await send(event, f"当前时间：{datetime.now().strftime('%X')}")
 
 
 @plugin.nudge()
 async def on_nudge_message(event: NudgeEvent):
-    '''戳一戳互动'''
+    """戳一戳互动"""
     if event.subject.kind == 'Group' and event.subject.id in Config.get()['nudge_banned_group']:
         return
     if event.from_id != Config.bot_qq() and event.target == Config.bot_qq():
@@ -44,7 +44,7 @@ async def on_nudge_message(event: NudgeEvent):
 
 @plugin.all_mesg()
 async def play_dice(event: MessageEvent):
-    '''丢骰子'''
+    """丢骰子"""
     if "丢色子" == str(event.message_chain) or "丢骰子" == str(event.message_chain):
         ran = random.randint(1, 6)
         await send(event, Dice(ran))
@@ -60,7 +60,7 @@ async def play_dice(event: MessageEvent):
 
 @plugin.member_join()
 async def welcome_new_member(event: MemberJoinEvent):
-    '''欢迎新成员'''
+    """欢迎新成员"""
     await send(event.member, [At(event.member.id), ",热烈欢迎 "+event.member.member_name+" 加入本群！"]
                + [Face(face_id=99)]*3)
     await send_nudge(event.member.id, event.member.group.id, 'Group')
@@ -68,7 +68,7 @@ async def welcome_new_member(event: MemberJoinEvent):
 
 @plugin.group()
 async def interact_with_owner(event: GroupMessage):
-    '''和主人互动'''
+    """和主人互动"""
     if At(Config.bot_qq()) in event.message_chain and event.sender.id == Config.bot_owner_qq():
         reply = ("是的主人", "好的主人")
         await send(event, random.choice(reply), True)
@@ -76,7 +76,7 @@ async def interact_with_owner(event: GroupMessage):
 
 @plugin.group()
 async def hit_xiaobing(event: GroupMessage):
-    '''揍小冰'''
+    """揍小冰"""
     if str(event.message_chain) == '揍小冰':
         try:
             await mute(event.sender.group.id, 2854196306, 600)
@@ -88,7 +88,7 @@ async def hit_xiaobing(event: GroupMessage):
 
 @plugin.group()
 async def pin_picture(event: GroupMessage):
-    '''pin图功能'''
+    """pin图功能"""
     path = f'data/pin_image/pin{event.group.id}'
     lst_path = [path+'.png', path+'.jpg', path+'.jpeg', path+'.gif']
     if str(event.message_chain).startswith('/pin'):

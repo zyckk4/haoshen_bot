@@ -83,7 +83,7 @@ class Reversi(ChessWithImg):
 
     def can_capture_base(self, x, y, v, t):
         # Here x, y startsfrom 0
-        # v:direction vector
+        # v: direction vector
         if v == (0, 0):
             return False
         if t is None:

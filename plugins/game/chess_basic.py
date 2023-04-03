@@ -164,7 +164,7 @@ class ChessWithImg(ChessBasic):
 
     @staticmethod
     def text_b(coord, draw, text, font, shadowcolor, fillcolor, bw=1, is_thin=True):
-        '''draw text with boarder'''
+        """draw text with boarder"""
         x = coord[0]
         y = coord[1]
         if is_thin:

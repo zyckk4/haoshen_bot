@@ -1113,7 +1113,7 @@ async def chess_main(event, server_name):
 
 
 async def katago(event, server_name, tp):
-    '''katago分析'''
+    """katago分析"""
     if not gb.is_server_open(server_name):
         await send(event, "当前群未开服！", True)
         return

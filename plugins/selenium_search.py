@@ -47,12 +47,13 @@ async def search(event: MessageEvent):
             str_search = str(event.message_chain).replace(keyword1[i], '', 1)
             if str_search.startswith(' '):
                 str_search = str_search.replace(' ', '', 1)
-            url = ['https://baike.baidu.com/item/',
-                   'https://tieba.baidu.com/f/search/res?ie=utf-8&kw=%E7%BA%AF%E5%87%A0%E4%BD%95&qw=',
-                   'https://wiki.biligame.com/mc/',
-                   'https://oeis.org/search?q=',
-                   'https://zh.moegirl.org.cn/'
-                   ]
+            url = [
+                'https://baike.baidu.com/item/',
+                'https://tieba.baidu.com/f/search/res?ie=utf-8&kw=%E7%BA%AF%E5%87%A0%E4%BD%95&qw=',
+                'https://wiki.biligame.com/mc/',
+                'https://oeis.org/search?q=',
+                'https://zh.moegirl.org.cn/'
+            ]
             wd.get(url[i]+str_search)
             all_hd = wd.window_handles
             width = wd.execute_script(

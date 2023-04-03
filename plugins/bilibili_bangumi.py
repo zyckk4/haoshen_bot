@@ -26,8 +26,7 @@ async def get_bilibili_new_bangumi(event: MessageEvent):
 
 
 async def get_new_bangumi_json() -> dict:
-    """
-    Get json data from bilibili
+    """Get json data from bilibili
 
     Args:
 
@@ -58,8 +57,7 @@ async def get_new_bangumi_json() -> dict:
 
 
 async def get_formatted_new_bangumi_json(day=1):
-    """
-    Format the json data
+    """Format the json data
 
     Examples:
         data = get_formatted_new_bangumi_json()

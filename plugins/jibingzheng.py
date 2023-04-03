@@ -58,7 +58,7 @@ async def download_img(url) -> IMG:
 class Jbz:
     @staticmethod
     def make_jbz(avatur: IMG, jbz_no, jbz_id):
-        '''制作计兵证'''
+        """制作计兵证"""
         img = IMG.open('statics/fun_img/jibingzheng/jbz.jpg', 'r')
         img.paste(avatur.resize((120, 120)), (400, 20))
         draw = ImageDraw.Draw(img)
@@ -80,7 +80,7 @@ class Jbz:
 class Tmbz:
     @staticmethod
     def make_tmbz(avatur: IMG, tmbz_no, tmbz_id):
-        '''制作土木兵证 '''
+        """制作土木兵证"""
         img = IMG.open('statics/fun_img/jibingzheng/tmbz.jpg', 'r')
         img.paste(avatur.resize((120, 120)), (700, 50))
         draw = ImageDraw.Draw(img)
