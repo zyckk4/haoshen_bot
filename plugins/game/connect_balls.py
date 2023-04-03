@@ -186,7 +186,7 @@ class ConnectBalls:
                 draw.text(center, str(num), fill=self.text_color, font=font)
 
     def is_connect_state_solution(self, connect_state):
-        '''判断connect_state是否构成合法解'''
+        """判断'connect_state'是否构成合法解"""
         if connect_state is None:
             return False
         board_connect = [[0 for _ in range(self.row)]

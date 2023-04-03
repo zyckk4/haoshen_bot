@@ -2,8 +2,8 @@
 """
 @author: zyckk4  https://github.com/zyckk4
 """
-from .get_10 import Get10
 import copy
+from .get_10 import Get10
 
 
 class AIGet10(Get10):

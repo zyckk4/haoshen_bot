@@ -106,8 +106,7 @@ class Go(ChessWithImg):
             raise ValueError("打劫！请找劫财后再提劫")
 
     def if_dead(self, deadList, yourChessman, coord):
-        """
-        判断棋子（种类为yourChessman，位置为coord）是否无气（死亡），有气则返回False，无气则返回无气棋子的列表
+        """判断棋子（种类为yourChessman，位置为coord）是否无气（死亡），有气则返回False，无气则返回无气棋子的列表
         本函数是游戏规则的关键，初始deadlist只包含了自己的位置，每次执行时，函数尝试寻找coord周围有没有空的位置，有则结束，返回False代表有气；
         若找不到，则找自己四周的同类（不在deadlist中的）是否有气，即调用本函数，无气，则把该同类加入到deadlist，然后找下一个邻居，只要有一个有气，返回False代表有气；
         若四周没有一个有气的同类，返回deadlist,至此结束递归

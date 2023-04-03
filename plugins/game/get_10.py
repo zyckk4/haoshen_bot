@@ -152,7 +152,7 @@ class Get10:
         return score
 
     def is_legal(self, i, j):
-        '''判断i列j行是否可选中以消除'''
+        """判断i列j行是否可选中以消除"""
         return ((i > 0 and self.board[i][j] == self.board[i-1][j]) or
                 (i < self.col - 1 and self.board[i][j] == self.board[i+1][j]) or
                 (j > 0 and self.board[i][j] == self.board[i][j-1]) or

@@ -80,7 +80,7 @@ class Reversi(ChessWithImg):
         self._save_frame(True)
 
     def can_capture_base(self, x, y, v, t):
-        # Here x,y startsfrom 0
+        # Here x, y startsfrom 0
         # v:direction vector
         if v == (0, 0):
             return False
@@ -110,8 +110,8 @@ class Reversi(ChessWithImg):
         return False
 
     def capture_base(self, x, y, v):
-        # Here x,y start from 0
-        # v:direction vector
+        # Here x, y start from 0
+        # v: direction vector
         if v == (0, 0):
             return 0
         m = self.board[x][y]
@@ -143,7 +143,7 @@ class Reversi(ChessWithImg):
             return ct
 
     def capture(self, x, y):
-        # Here x,y start from 0
+        # Here x, y start from 0
         ct = 0
         for i in (-1, 0, 1):
             for j in (-1, 0, 1):

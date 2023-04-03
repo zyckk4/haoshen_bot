@@ -9,12 +9,9 @@ import copy
 
 
 class AntiTTT_AI:
-    """
-    用主类继承这个类以实现AI功能
+    """用主类继承这个类以实现AI功能
 
     // record all the scores of the chessboards
-    // all chessboards are compressed as int
-    // maximum size = 3^16 = 43046721
     // There are in total 4*4 = 16 steps
     // * When i = m[board] < 0: it means it loses the game at the last but i step
     // * When i = m[board] > 0: it means it wins  the game at the last but i step
@@ -26,9 +23,10 @@ class AntiTTT_AI:
         self.m = {}
 
     def board_int(self) -> int:  # 暂时没用
-        '''
-        压位，将棋盘数组对应为一个正整数，其二进制的前col*row位存黑棋，后col*row位存白棋
-        '''
+        """压位，将棋盘数组对应为一个正整数
+        
+        其二进制的前col*row位存黑棋，后col*row位存白棋
+        """
         board_int = 0
         for x in range(self.col):
             for y in range(self.row):

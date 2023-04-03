@@ -134,6 +134,7 @@ async def send(
 
 async def send_nudge(target: int, subject: int, kind: Literal['Friend', 'Group', 'Stranger']):
     """发送头像戳一戳消息。
+    
      Args:
          target (`int`): 戳一戳的目标 QQ 号，可以为 bot QQ 号。
          subject (`int`): 戳一戳接受主体（上下文），戳一戳信息会发送至该主体，为群号或好友 QQ 号。
@@ -144,7 +145,7 @@ async def send_nudge(target: int, subject: int, kind: Literal['Friend', 'Group',
 
 
 async def respond_nudge(event: NudgeEvent):
-    """戳回去刚刚戳bot的人 """
+    """戳回去刚刚戳bot的人"""
     return await send_nudge(event.from_id, event.subject.id, event.subject.kind)
 
 
@@ -191,8 +192,7 @@ async def is_admin(event: GroupMessage) -> bool:
 
 
 def img_to_base64(img: IMG, fmt: str) -> bytes:
-    """将PIL.Image格式的图片转为base64码
-    """
+    """将PIL.Image格式的图片转为base64码"""
     bt = BytesIO()
     img.save(bt, format=fmt)
     return base64.b64encode(bt.getvalue())
