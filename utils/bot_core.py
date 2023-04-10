@@ -38,13 +38,13 @@ class Core:
             f'./log/{datetime.now().strftime("%Y.%m.%d_%H.%M.%S")}.log',
             encoding='utf-8',
         )
-        #sh = logging.StreamHandler()
+        # sh = logging.StreamHandler()
         fmt = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
         fh.setFormatter(fmt)
-        #sh.setFormatter(fmt)
+        # sh.setFormatter(fmt)
         logger.handlers.clear()
         logger.addHandler(fh)
-        #logger.addHandler(sh)
+        # logger.addHandler(sh)
         self.logger = logger
 
     def import_modules(self):

@@ -95,7 +95,7 @@ class ErnieVilG:
                              style: str = "油画",
                              resolution: str = None) -> list:
         """调用百度文心大模型接口进行AI作画.
-        
+
         :param text_promt: 作画内容
         :param style: 作画风格, 暂时只支持 self.available_styles 中的一种
         :param resolution: '1024*1024', '1536*1024' (横), '1024*1536' (竖), 默认为第一种
@@ -128,7 +128,6 @@ class ErnieVilG:
         if res['msg'] == 'success':
             taskids.append(res['data']["taskId"])
         else:
-            # print(res['msg'])
             raise RuntimeError(res['msg'])
 
         results = {}
@@ -162,7 +161,6 @@ class ErnieVilG:
                     results[res['data']['text']] = {
                         'imgUrls': res['data']['imgUrls']}
                 else:
-                    # print(res['msg'])
                     raise RuntimeError(res['msg'])
 
             # do not post requests too frequently, because it takes time to generate images at server

@@ -6,7 +6,7 @@
 from PIL import Image, ImageDraw, ImageFont
 
 
-def text_to_img(text: str, font_path="statics/fonts/msyh.ttc", font_size=36):
+def text_to_img(text: str, font_path: str = "statics/fonts/msyh.ttc", font_size: int = 36):
     lst = text.split('\n')
     font = ImageFont.truetype(font_path, font_size)
     x_max, h_max = 0, 0
@@ -20,4 +20,3 @@ def text_to_img(text: str, font_path="statics/fonts/msyh.ttc", font_size=36):
         draw.text((0+2, i*h_max+2), lst[i], fill=0, font=font)
 
     return img
-

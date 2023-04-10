@@ -25,7 +25,7 @@ class Get10:
             self.row)] for __ in range(self.col)]
 
         # 储存最近一次操作的三张图片
-        self.frame = []  
+        self.frame = []
 
     def play(self, input_str):
         k = input_str.replace('(', '').replace(')', '').replace(
