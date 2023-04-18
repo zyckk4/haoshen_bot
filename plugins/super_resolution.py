@@ -3,6 +3,7 @@
 @author: zyckk4  https://github.com/zyckk4
 """
 
+import asyncio
 import time
 from io import BytesIO
 
@@ -63,7 +64,8 @@ async def super_resolution(event: MessageEvent):
         start = time.time()
         await send(event, "请稍等..", True)
         try:
-            img = await do_super_resolution(img_content)
+            loop = asyncio.get_event_loop()
+            img = await loop.run_in_executor(None, do_super_resolution, img_content)
         except ValueError as e:
             await send(event, str(e))
             return
@@ -77,7 +79,7 @@ async def super_resolution(event: MessageEvent):
         await send(event, [f"超分完成！处理用时：{use_time}s"], img_bytes=img)
 
 
-async def do_super_resolution(
+def do_super_resolution(
     image_data: bytes, resize: bool = False, is_gif: bool = False
 ):
     image = IMG.open(BytesIO(image_data))
