@@ -49,17 +49,23 @@ class Core:
 
     def import_modules(self):
         for module in os.listdir("plugins/management"):
-            if module.startswith('__'):
+            if module.startswith(('_', '__')):
                 continue
             module_name = module.split('.')[0]
-            module_dir = "plugins.management."+module.split('.')[0]
+            module_dir = "plugins.management."+module_name
             importlib.import_module(module_dir, module_dir)
             self.logger.info(f'管理模块 {module_name} 已加载')
         for module in os.listdir("plugins"):
-            if module.startswith('__') or module in ('management'):
+            if module.startswith(('_', '__')) or module in ('management'):
                 continue
-            module_name = module if os.path.isdir(
-                module) else module.split('.')[0]
-            module_dir = 'plugins.'+module_name
-            importlib.import_module(module_dir, module_dir)
-            self.logger.info(f'常规模块 {module_name} 已加载')
+            if os.path.isdir('plugins/' + module):
+                module_name = module
+                module_dir = 'plugins.' + module_name
+                self.logger.info(f'准备加载大模块 {module_name}:')
+                importlib.import_module(module_dir, module_dir)
+                self.logger.info(f'大模块 {module_name} 已加载')
+            else:
+                module_name = module.split('.')[0]
+                module_dir = 'plugins.' + module_name
+                importlib.import_module(module_dir, module_dir)
+                self.logger.info(f'常规模块 {module_name} 已加载')

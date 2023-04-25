@@ -4,13 +4,44 @@
 """
 
 import re
+from asyncio import exceptions as e
 from io import BytesIO
 from urllib.request import quote
 
 import aiohttp
 import numpy as np
 from cairosvg import svg2png
+from mirai import Face, MessageEvent
 from PIL import Image
+
+from utils.utils import Listen, send
+
+plugin = Listen(
+    'get_latex',
+    'LaTeX图片生成功能'
+)
+
+
+@plugin.all_mesg()
+async def get_latex_pic(event: MessageEvent):
+    """LaTeX图片生成"""
+    keyword = ('/latex', '/LaTeX')
+    for k in keyword:
+        if str(event.message_chain).startswith(k):
+            x = str(event.message_chain).replace(k, '', 1)
+            if x == '':
+                await send(event, '不能为空！', True)
+                return
+            try:
+                img = await get_latex(x, 7)
+            except e.TimeoutError:
+                await send(event, ["连接超时", Face(face_id=18)], True)
+                return
+            except Exception:
+                await send(event, ["错误！", Face(face_id=18)], True)
+                return
+            await send(event, [], PIL_image=img)
+            return
 
 
 def get_url(x, is_svg=True):
