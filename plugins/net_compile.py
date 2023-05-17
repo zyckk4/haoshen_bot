@@ -49,6 +49,8 @@ async def net_compile(event: GroupMessage):
                 await send(event, [At(event.sender.id), "你太长了！"])
             elif result == -2:
                 await send(event, [At(event.sender.id), "连接失败！"])
+            elif result == -3:
+                await send(event, [At(event.sender.id), "未知错误！"])
             else:
                 mesg = result['output'] if result["output"] else result["errors"]
                 await send(event, mesg)
@@ -101,6 +103,8 @@ async def netcomp(language: str, stdin: str, code: str):
                 res = await resp.json()
     except Exception:
         return -2
+    if res is None:
+        return -3
     if len(res['output']) >= 15000 or len(res['errors']) >= 15000:
         return -1
     return res
