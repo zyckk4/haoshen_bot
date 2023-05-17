@@ -13,3 +13,4 @@ lxml
 pandas
 openpyxl
 paddlepaddle==2.3.2
+imageio
