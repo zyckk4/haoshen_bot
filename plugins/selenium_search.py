@@ -142,56 +142,38 @@ async def search(event: MessageEvent):
     keyword3 = '/纯几何吧'
     if str(event.message_chain).startswith(keyword3):
         wd = load_chrome()
-        url = ['https://yydbxx.cn/t/riauthor.php?ssid=',
-               'https://yydbxx.cn/t/ritag.php?ssid=',
-               'https://yydbxx.cn/t/ri.php?ssid=']
-        Keyword = [keyword3+'人', keyword3+'签', keyword3]
-        for i in range(3):
-            if str(event.message_chain).startswith(Keyword[i]):
-                x = str(event.message_chain).replace(Keyword[i], '', 1)
-                break
-        if x.startswith(' '):
-            x = x.replace(' ', '', 1)
-        wd.get(url[i]+x)
-        try:
-            element = wd.find_element(By.PARTIAL_LINK_TEXT, '')
-        except NoSuchElementException:
-            await send(event, ["没找到捏", Face(face_id=226)], True)
+        x = str(event.message_chain).replace(keyword3, '', 1).strip()
+        if not x.isdigit():
+            await send(event, '指令格式为"/纯几何吧 <题号>"', True)
             return
-        element.click()
+        try:
+            with open('./statics/cjhb.txt', 'r') as f:
+                info = f.read().split('\n')
+        except FileNotFoundError:
+            await send(event, '缺少cjhb.txt数据文件', True)
+            return
+        try:
+            index = info.index(x)
+        except ValueError:
+            await send(event, '题号超出范围！', True)
+            return
+        url = info[index+1].split()
+        if not url:
+            await send(event, f'未查找到纯几何吧{x}的信息！', True)
+            return
+        if len(url) >= 2:
+            await send(event, [f'纯几何吧{x}查询到{len(url)}个结果:\n', '\n'.join(url)])
+            return
+        wd.get(url[0])
         width = wd.execute_script(
             "return document.documentElement.scrollWidth")
         height = wd.execute_script(
             "return document.documentElement.scrollHeight")
         wd.set_window_size(width, height)
         cur_url = wd.current_url
-        await asyncio.sleep(1)
+        await asyncio.sleep(0.5)
         img = wd.get_screenshot_as_base64()
-        await send(event, [Image(base64=img), Plain(cur_url)])
-
-        def waiter(event2):
-            if event.sender.id == event2.sender.id and str(event2.message_chain).startswith('//'):
-                mesg = str(event2.message_chain).replace('//', '', 1)
-                return mesg
-
-        mes = await my_filter(waiter, 'A', timeout=60)
-
-        if mes is not None:
-            try:
-                element = wd.find_element(By.PARTIAL_LINK_TEXT, mes)
-            except NoSuchElementException:
-                await send(event, ["没找到捏", Face(face_id=226)], True)
-                return
-            element.click()
-            width = wd.execute_script(
-                "return document.documentElement.scrollWidth")
-            height = wd.execute_script(
-                "return document.documentElement.scrollHeight")
-            wd.set_window_size(width, height)
-            cur_url = wd.current_url
-            await asyncio.sleep(1)
-            img = wd.get_screenshot_as_base64()
-            await send(event, [Image(base64=img), Plain(cur_url)])
+        await send(event, [Image(base64=img), f'纯几何吧{x}: ', cur_url])
 
     keyword4 = '来道平几'
     if str(event.message_chain) == keyword4:
