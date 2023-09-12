@@ -11,6 +11,7 @@ from typing import Callable, List, Literal, Optional, Type, Union
 from mirai import (Event, FriendMessage, GroupMessage, Image, MessageEvent,
                    Mirai, TempMessage)
 from mirai.models import Entity, MemberJoinEvent, NudgeEvent
+from mirai.exceptions import ApiError
 from mirai_extensions.trigger import Filter, InterruptControl
 from PIL.Image import Image as IMG
 
@@ -142,12 +143,15 @@ async def send_nudge(target: int, subject: int, kind: Literal['Friend', 'Group',
         kind (`Literal['Friend','Group','Stranger']`): 上下文类型，可选值 `Friend`, `Group`, `Stranger`。
     """
     bot: Mirai = core_instance.get().bot
-    return await bot.send_nudge(target, subject, kind)
+    try:
+        await bot.send_nudge(target, subject, kind)
+    except ApiError:
+        pass
 
 
 async def respond_nudge(event: NudgeEvent):
     """戳回去刚刚戳bot的人"""
-    return await send_nudge(event.from_id, event.subject.id, event.subject.kind)
+    await send_nudge(event.from_id, event.subject.id, event.subject.kind)
 
 
 async def mute(group_id: Union[GroupMessage, int], member_id: int, time: int):
