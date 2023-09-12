@@ -3,18 +3,23 @@
 @author: zyckk4  https://github.com/zyckk4
 """
 
+try:
+    import imageio
+    from basicsr.archs.rrdbnet_arch import RRDBNet
+    from realesrgan import RealESRGANer
+except ImportError:
+    from utils.bot_exceptions import BotImportError
+    raise BotImportError
+
 import asyncio
 import time
 from io import BytesIO
 
 import aiohttp
-import imageio
 import numpy as np
-from basicsr.archs.rrdbnet_arch import RRDBNet
 from mirai import Image, MessageEvent, Plain
 from PIL import Image as IMG
 from PIL import ImageSequence, UnidentifiedImageError
-from realesrgan import RealESRGANer
 
 from utils.utils import Listen, my_filter, send
 

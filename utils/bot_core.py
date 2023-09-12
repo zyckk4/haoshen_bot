@@ -12,6 +12,8 @@ import yaml
 from mirai import Mirai, WebSocketAdapter
 from mirai_extensions.trigger import InterruptControl
 
+from utils.bot_exceptions import BotImportError
+
 
 class Core:
     def __init__(self):
@@ -38,13 +40,15 @@ class Core:
             f'./log/{datetime.now().strftime("%Y.%m.%d_%H.%M.%S")}.log',
             encoding='utf-8',
         )
-        # sh = logging.StreamHandler()
+        sh = logging.StreamHandler()
         fmt = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+
         fh.setFormatter(fmt)
-        # sh.setFormatter(fmt)
+        sh.setFormatter(fmt)
         logger.handlers.clear()
+        logger.propagate = False
         logger.addHandler(fh)
-        # logger.addHandler(sh)
+        logger.addHandler(sh)
         self.logger = logger
 
     def import_modules(self):
@@ -67,5 +71,8 @@ class Core:
             else:
                 module_name = module.split('.')[0]
                 module_dir = 'plugins.' + module_name
-                importlib.import_module(module_dir, module_dir)
-                self.logger.info(f'常规模块 {module_name} 已加载')
+                try:
+                    importlib.import_module(module_dir, module_dir)
+                    self.logger.info(f'常规模块 {module_name} 已加载')
+                except BotImportError:
+                    self.logger.info(f'常规模块 {module_name} 加载失败！可能缺少依赖')
