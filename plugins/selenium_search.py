@@ -9,7 +9,7 @@ import sys
 
 from mirai import Face, Image, MessageEvent, Plain
 from selenium import webdriver
-from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import NoSuchElementException, TimeoutException
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 
@@ -32,8 +32,9 @@ def load_chrome():
         chrome_options.add_argument('--disable-dev-shm-usage')
     # 在启动浏览器时加入配置
     wd = webdriver.Chrome(options=chrome_options)
-    # 等待加载，最多等待10秒
+    # 设置最大等待时间
     wd.implicitly_wait(10)
+    wd.set_page_load_timeout(10)
     return wd
 
 
@@ -53,7 +54,11 @@ async def search(event: MessageEvent):
                 'https://oeis.org/search?q=',
                 'https://zh.moegirl.org.cn/'
             ]
-            wd.get(url[i]+str_search)
+            try:
+                wd.get(url[i]+str_search)
+            except TimeoutException:
+                await send(event, '请求超时！请稍后重试', True)
+                return
             all_hd = wd.window_handles
             width = wd.execute_script(
                 "return document.documentElement.scrollWidth")
@@ -98,7 +103,11 @@ async def search(event: MessageEvent):
         wd = load_chrome()
         str_search = str(event.message_chain).replace(keyword2, '', 1)
         url = 'http://www.yydbxx.cn/t/pb.html'
-        wd.get(url)
+        try:
+            wd.get(url)
+        except TimeoutException:
+            await send(event, '请求超时！请稍后重试', True)
+            return
         try:
             element = wd.find_element(By.PARTIAL_LINK_TEXT, str_search)
         except NoSuchElementException:
@@ -141,7 +150,6 @@ async def search(event: MessageEvent):
 
     keyword3 = '/纯几何吧'
     if str(event.message_chain).startswith(keyword3):
-        wd = load_chrome()
         x = str(event.message_chain).replace(keyword3, '', 1).strip()
         if not x.isdigit():
             await send(event, '指令格式为"/纯几何吧 <题号>"', True)
@@ -157,14 +165,21 @@ async def search(event: MessageEvent):
         except ValueError:
             await send(event, '题号超出范围！', True)
             return
-        url = info[index+1].split()
-        if not url:
+        pid = info[index+1].split()
+        if not pid:
             await send(event, f'未查找到纯几何吧{x}的信息！', True)
             return
-        if len(url) >= 2:
-            await send(event, [f'纯几何吧{x}查询到{len(url)}个结果:\n', '\n'.join(url)])
+        if len(pid) >= 2:
+            pid = ['https://tieba.baidu.com/p'+k for k in pid]
+            await send(event, [f'纯几何吧{x}查询到{len(pid)}个结果:\n', '\n'.join(pid)])
             return
-        wd.get(url[0])
+
+        wd = load_chrome()
+        try:
+            wd.get('https://tieba.baidu.com/p'+pid[0])
+        except TimeoutException:
+            await send(event, '请求超时！请稍后重试', True)
+            return
         width = wd.execute_script(
             "return document.documentElement.scrollWidth")
         height = wd.execute_script(
@@ -177,47 +192,29 @@ async def search(event: MessageEvent):
 
     keyword4 = '来道平几'
     if str(event.message_chain) == keyword4:
-        wd = load_chrome()
+        with open('./statics/cjhb.txt', 'r') as f:
+            info = f.read().split('\n')
         while True:
-            ran = random.randint(1, 5998)
-            wd.get(f'https://yydbxx.cn/t/ri.php?ssid={ran}')
-            try:
-                element = wd.find_element(By.PARTIAL_LINK_TEXT, '')
-            except NoSuchElementException:
+            num = random.randint(1, len(info)-1)
+            if num % 2 == 0:
                 continue
-            else:
-                break
-        element.click()
+            if len(info[num].split()) == 0:
+                continue
+            break
+        pid = random.choice(info[num].split())
+
+        wd = load_chrome()
+        try:
+            wd.get('https://tieba.baidu.com/p'+pid)
+        except TimeoutException:
+            await send(event, '请求超时！请稍后重试', True)
+            return
         width = wd.execute_script(
             "return document.documentElement.scrollWidth")
         height = wd.execute_script(
             "return document.documentElement.scrollHeight")
         wd.set_window_size(width, height)
         cur_url = wd.current_url
-        await asyncio.sleep(1)
+        await asyncio.sleep(0.5)
         img = wd.get_screenshot_as_base64()
-        await send(event, [Image(base64=img), Plain(cur_url)])
-
-        def waiter(event2):
-            if event.sender.id == event2.sender.id and str(event2.message_chain).startswith('//'):
-                mesg = str(event2.message_chain).replace('//', '', 1)
-                return mesg
-
-        mes = await my_filter(waiter, 'A', timeout=60)
-
-        if mes is not None:
-            try:
-                element = wd.find_element(By.PARTIAL_LINK_TEXT, mes)
-            except NoSuchElementException:
-                await send(event, ["没找到捏", Face(face_id=226)], True)
-                return
-            element.click()
-            width = wd.execute_script(
-                "return document.documentElement.scrollWidth")
-            height = wd.execute_script(
-                "return document.documentElement.scrollHeight")
-            wd.set_window_size(width, height)
-            cur_url = wd.current_url
-            await asyncio.sleep(1)
-            img = wd.get_screenshot_as_base64()
-            await send(event, [Image(base64=img), Plain(cur_url)])
+        await send(event, [Image(base64=img), f'纯几何吧{info[num-1]}: ', cur_url])
