@@ -98,9 +98,9 @@ async def search(event: MessageEvent):
                 await send(event, [Image(base64=img), Plain(cur_url)])
             return
 
-    keyword3 = '/纯几何吧'
-    if str(event.message_chain).startswith(keyword3):
-        x = str(event.message_chain).replace(keyword3, '', 1).strip()
+    keyword2 = '/纯几何吧'
+    if str(event.message_chain).startswith(keyword2):
+        x = str(event.message_chain).replace(keyword2, '', 1).strip()
         if not x.isdigit():
             await send(event, '指令格式为"/纯几何吧 <题号>"', True)
             return
@@ -142,8 +142,12 @@ async def search(event: MessageEvent):
 
     keyword3 = '来道平几'
     if str(event.message_chain) == keyword3:
-        with open('./statics/cjhb.txt', 'r') as f:
-            info = f.read().split('\n')
+        try:
+            with open('./statics/cjhb.txt', 'r') as f:
+                info = f.read().split('\n')
+        except FileNotFoundError:
+            await send(event, '缺少cjhb.txt数据文件', True)
+            return
         while True:
             num = random.randint(1, len(info)-1)
             if num % 2 == 0:
