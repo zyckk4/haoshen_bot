@@ -7,9 +7,9 @@ import asyncio
 import random
 import sys
 
-from mirai import Face, Image, MessageEvent, Plain
+from mirai import Image, MessageEvent, Plain
 from selenium import webdriver
-from selenium.common.exceptions import NoSuchElementException, TimeoutException
+from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 
@@ -40,20 +40,20 @@ def load_chrome():
 
 @plugin.all_mesg(15)
 async def search(event: MessageEvent):
-    keyword1 = ['/百科', '/百度纯几吧搜', '/mcwiki', '/oeis', '/萌娘百科']
+    keyword1 = ('/百科', '/百度纯几吧搜', '/mcwiki', '/oeis', '/萌娘百科')
     for i in range(len(keyword1)):
         if str(event.message_chain).startswith(keyword1[i]):
             wd = load_chrome()
             str_search = str(event.message_chain).replace(keyword1[i], '', 1)
             if str_search.startswith(' '):
                 str_search = str_search.replace(' ', '', 1)
-            url = [
+            url = (
                 'https://baike.baidu.com/item/',
                 'https://tieba.baidu.com/f/search/res?ie=utf-8&kw=%E7%BA%AF%E5%87%A0%E4%BD%95&qw=',
                 'https://wiki.biligame.com/mc/',
                 'https://oeis.org/search?q=',
                 'https://zh.moegirl.org.cn/'
-            ]
+            )
             try:
                 wd.get(url[i]+str_search)
             except TimeoutException:
@@ -61,9 +61,9 @@ async def search(event: MessageEvent):
                 return
             all_hd = wd.window_handles
             width = wd.execute_script(
-                "return document.documentElement.scrollWidth")
+                'return document.documentElement.scrollWidth')
             height = wd.execute_script(
-                "return document.documentElement.scrollHeight")
+                'return document.documentElement.scrollHeight')
             if height > 30*width:
                 height = 30*width
                 await send(event, '由于太长，无法发出完整屏幕截图，仅截取前面部分', True)
@@ -89,64 +89,14 @@ async def search(event: MessageEvent):
                     wd.switch_to.window(new_hd[0])
                 await asyncio.sleep(1)
                 width = wd.execute_script(
-                    "return document.documentElement.scrollWidth")
+                    'return document.documentElement.scrollWidth')
                 height = wd.execute_script(
-                    "return document.documentElement.scrollHeight")
+                    'return document.documentElement.scrollHeight')
                 wd.set_window_size(width, height)
                 cur_url = wd.current_url
                 img = wd.get_screenshot_as_base64()
                 await send(event, [Image(base64=img), Plain(cur_url)])
             return
-
-    keyword2 = '/直接搜'
-    if str(event.message_chain).startswith(keyword2):
-        wd = load_chrome()
-        str_search = str(event.message_chain).replace(keyword2, '', 1)
-        url = 'http://www.yydbxx.cn/t/pb.html'
-        try:
-            wd.get(url)
-        except TimeoutException:
-            await send(event, '请求超时！请稍后重试', True)
-            return
-        try:
-            element = wd.find_element(By.PARTIAL_LINK_TEXT, str_search)
-        except NoSuchElementException:
-            await send(event, ["没找到捏", Face(face_id=226)], True)
-            return
-        element.click()
-        width = wd.execute_script(
-            "return document.documentElement.scrollWidth")
-        height = wd.execute_script(
-            "return document.documentElement.scrollHeight")
-        wd.set_window_size(width, height)
-        cur_url = wd.current_url
-        await asyncio.sleep(1)
-        img = wd.get_screenshot_as_base64()
-        await send(event, [Image(base64=img), Plain(cur_url)])
-
-        def waiter(event2):
-            if event.sender.id == event2.sender.id and str(event2.message_chain).startswith('//'):
-                mesg = str(event2.message_chain).replace('//', '', 1)
-                return mesg
-
-        mes = await my_filter(waiter, 'A', timeout=60)
-
-        if mes is not None:
-            try:
-                element = wd.find_element(By.PARTIAL_LINK_TEXT, mes)
-            except NoSuchElementException:
-                await send(event, ["没找到捏", Face(face_id=226)], True)
-                return
-            element.click()
-            width = wd.execute_script(
-                "return document.documentElement.scrollWidth")
-            height = wd.execute_script(
-                "return document.documentElement.scrollHeight")
-            wd.set_window_size(width, height)
-            cur_url = wd.current_url
-            await asyncio.sleep(1)
-            img = wd.get_screenshot_as_base64()
-            await send(event, [Image(base64=img), Plain(cur_url)])
 
     keyword3 = '/纯几何吧'
     if str(event.message_chain).startswith(keyword3):
@@ -181,17 +131,17 @@ async def search(event: MessageEvent):
             await send(event, '请求超时！请稍后重试', True)
             return
         width = wd.execute_script(
-            "return document.documentElement.scrollWidth")
+            'return document.documentElement.scrollWidth')
         height = wd.execute_script(
-            "return document.documentElement.scrollHeight")
+            'return document.documentElement.scrollHeight')
         wd.set_window_size(width, height)
         cur_url = wd.current_url
         await asyncio.sleep(0.5)
         img = wd.get_screenshot_as_base64()
         await send(event, [Image(base64=img), f'纯几何吧{x}: ', cur_url])
 
-    keyword4 = '来道平几'
-    if str(event.message_chain) == keyword4:
+    keyword3 = '来道平几'
+    if str(event.message_chain) == keyword3:
         with open('./statics/cjhb.txt', 'r') as f:
             info = f.read().split('\n')
         while True:
@@ -210,9 +160,9 @@ async def search(event: MessageEvent):
             await send(event, '请求超时！请稍后重试', True)
             return
         width = wd.execute_script(
-            "return document.documentElement.scrollWidth")
+            'return document.documentElement.scrollWidth')
         height = wd.execute_script(
-            "return document.documentElement.scrollHeight")
+            'return document.documentElement.scrollHeight')
         wd.set_window_size(width, height)
         cur_url = wd.current_url
         await asyncio.sleep(0.5)
