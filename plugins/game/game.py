@@ -1524,10 +1524,12 @@ async def play_nonogram(event, server_name):
         def waiter(event2):
             if event2.sender.group.id == event.sender.group.id:
                 x = str(event2.message_chain)
+                if event2.sender.id in nono_admin and x == '/关闭':
+                    return -1
+                if len(x) < 3:
+                    return
                 if re.match('\d', x[0]) and re.match('\d', x[2]):
                     return x, event2.sender.id
-            if event2.sender.id in nono_admin and x == '/关闭':
-                return -1
 
         mesg = await my_filter(waiter, 'G', timeout=120)
 
