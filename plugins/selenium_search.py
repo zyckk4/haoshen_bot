@@ -26,7 +26,7 @@ def load_chrome():
     chrome_options = Options()
     chrome_options.add_argument('--headless')
 
-    if sys.platform in ['linux', 'linux2']:
+    if sys.platform in ('linux', 'linux2'):
         chrome_options.add_argument('--no-sandbox')
         chrome_options.add_argument('--disable-gpu')
         chrome_options.add_argument('--disable-dev-shm-usage')
@@ -34,7 +34,7 @@ def load_chrome():
     wd = webdriver.Chrome(options=chrome_options)
     # 设置最大等待时间
     wd.implicitly_wait(10)
-    wd.set_page_load_timeout(10)
+    wd.set_page_load_timeout(20)
     return wd
 
 
@@ -54,11 +54,18 @@ async def search(event: MessageEvent):
                 'https://oeis.org/search?q=',
                 'https://zh.moegirl.org.cn/'
             )
-            try:
-                wd.get(url[i]+str_search)
-            except TimeoutException:
-                await send(event, '请求超时！请稍后重试', True)
-                return
+            try_times = 3
+            while True:
+                try:
+                    wd.get(url[i]+str_search)
+                except TimeoutException:
+                    if try_times > 1:
+                        try_times -= 1
+                        await asyncio.sleep(0.5)
+                        continue
+                    await send(event, '请求超时！请稍后重试', True)
+                    return
+                break
             all_hd = wd.window_handles
             width = wd.execute_script(
                 'return document.documentElement.scrollWidth')
@@ -98,6 +105,11 @@ async def search(event: MessageEvent):
                 await send(event, [Image(base64=img), Plain(cur_url)])
             return
 
+    """
+    cjhb.txt的格式：
+    1,3,5等奇数行为题号
+    偶数行为'/+题号对应的pid'，若一个题号对应多个贴则pid之间用一个空格分开
+    """
     keyword2 = '/纯几何吧'
     if str(event.message_chain).startswith(keyword2):
         x = str(event.message_chain).replace(keyword2, '', 1).strip()
@@ -115,30 +127,41 @@ async def search(event: MessageEvent):
         except ValueError:
             await send(event, '题号超出范围！', True)
             return
-        pid = info[index+1].split()
-        if not pid:
+
+        if not info[index+1]:
             await send(event, f'未查找到纯几何吧{x}的信息！', True)
             return
-        if len(pid) >= 2:
-            pid = ['https://tieba.baidu.com/p'+k for k in pid]
-            await send(event, [f'纯几何吧{x}查询到{len(pid)}个结果:\n', '\n'.join(pid)])
+        lst_pid = info[index+1].split()
+        if len(lst_pid) >= 2:
+            lst_url = ['https://tieba.baidu.com/p'+k for k in lst_pid]
+            await send(event, [f'纯几何吧{x}查询到{len(lst_pid)}个结果:\n', '\n'.join(lst_url)])
             return
 
+        url = 'https://tieba.baidu.com/p'+lst_pid[0]
         wd = load_chrome()
-        try:
-            wd.get('https://tieba.baidu.com/p'+pid[0])
-        except TimeoutException:
-            await send(event, '请求超时！请稍后重试', True)
-            return
+        try_times = 3
+        while True:
+            try:
+                wd.get(url)
+            except TimeoutException:
+                if try_times > 1:
+                    try_times -= 1
+                    await asyncio.sleep(0.5)
+                    continue
+                await send(event,
+                           '图片获取超时！请稍后重试\n'
+                           f'纯几何吧{x}: {url}',
+                           True)
+                return
+            break
         width = wd.execute_script(
             'return document.documentElement.scrollWidth')
         height = wd.execute_script(
             'return document.documentElement.scrollHeight')
         wd.set_window_size(width, height)
-        cur_url = wd.current_url
         await asyncio.sleep(0.5)
         img = wd.get_screenshot_as_base64()
-        await send(event, [Image(base64=img), f'纯几何吧{x}: ', cur_url])
+        await send(event, [Image(base64=img), f'纯几何吧{x}: ', url])
 
     keyword3 = '来道平几'
     if str(event.message_chain) == keyword3:
@@ -152,23 +175,33 @@ async def search(event: MessageEvent):
             num = random.randint(1, len(info)-1)
             if num % 2 == 0:
                 continue
-            if len(info[num].split()) == 0:
+            if not info[num]:
                 continue
             break
         pid = random.choice(info[num].split())
-
+    
+        url = 'https://tieba.baidu.com/p'+pid
         wd = load_chrome()
-        try:
-            wd.get('https://tieba.baidu.com/p'+pid)
-        except TimeoutException:
-            await send(event, '请求超时！请稍后重试', True)
-            return
+        try_times = 3
+        while True:
+            try:
+                wd.get(url)
+            except TimeoutException:
+                if try_times > 1:
+                    try_times -= 1
+                    await asyncio.sleep(0.5)
+                    continue
+                await send(event,
+                           '图片获取超时！请稍后重试\n'
+                           f'纯几何吧{info[num-1]}: {url}',
+                           True)
+                return
+            break
         width = wd.execute_script(
             'return document.documentElement.scrollWidth')
         height = wd.execute_script(
             'return document.documentElement.scrollHeight')
         wd.set_window_size(width, height)
-        cur_url = wd.current_url
         await asyncio.sleep(0.5)
         img = wd.get_screenshot_as_base64()
-        await send(event, [Image(base64=img), f'纯几何吧{info[num-1]}: ', cur_url])
+        await send(event, [Image(base64=img), f'纯几何吧{info[num-1]}: ', url])
